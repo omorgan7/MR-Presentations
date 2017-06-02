@@ -10,7 +10,7 @@ public class VideoController : MonoBehaviour {
 	void Start () {
 		Transform t = gameObject.GetComponent<Transform>();
 		VideoPlayer vp = gameObject.GetComponent<VideoPlayer>();
-		vp.clip = Resources.Load("Leonardo") as VideoClip;
+		vp.clip = Resources.Load("Shia") as VideoClip;
 		print(vp.clip);
 		VideoClip clip = vp.clip;
 		float aspectRatio = (float)clip.width/(float)clip.height;
