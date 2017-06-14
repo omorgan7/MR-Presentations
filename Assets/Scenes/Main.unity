@@ -570,6 +570,20 @@ Prefab:
       propertyPath: m_LocalScale.y
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1616800764991326, guid: 20bb7550f4839454e963967a269c9b2b, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114220874010023850, guid: 20bb7550f4839454e963967a269c9b2b,
+        type: 2}
+      propertyPath: Slide
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114220874010023850, guid: 20bb7550f4839454e963967a269c9b2b,
+        type: 2}
+      propertyPath: vp
+      value: 
+      objectReference: {fileID: 1719230474}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 20bb7550f4839454e963967a269c9b2b, type: 2}
   m_IsPrefabParent: 0
@@ -994,6 +1008,11 @@ Prefab:
       propertyPath: m_Name
       value: Left
       objectReference: {fileID: 0}
+    - target: {fileID: 114220874010023850, guid: 20bb7550f4839454e963967a269c9b2b,
+        type: 2}
+      propertyPath: vp
+      value: 
+      objectReference: {fileID: 1719230474}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 20bb7550f4839454e963967a269c9b2b, type: 2}
   m_IsPrefabParent: 0
@@ -1805,6 +1824,11 @@ MonoBehaviour:
   sourceMinDistance: 1
   hrtfEnabled: 1
   audioSource: {fileID: 0}
+--- !u!328 &1719230474 stripped
+VideoPlayer:
+  m_PrefabParentObject: {fileID: 328516551889149740, guid: 39d189033fcd2f74a9dd7d3e95621f6c,
+    type: 2}
+  m_PrefabInternal: {fileID: 644518068}
 --- !u!4 &1719230478 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4588099839605488, guid: 39d189033fcd2f74a9dd7d3e95621f6c,
