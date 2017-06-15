@@ -2,40 +2,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
-using System.IO;
 
 public class SlideController : MonoBehaviour {
 
+	public ParseEnums.SlideType Slide = ParseEnums.SlideType.left;
+	public VideoPlayer vp; 
+
 	Renderer rend;
 	Material mat;
-	Transform transform;
-	enum Instructions {start, stop, slide, video, draw, clear};
+	Texture2D maintexture;
 	List<float> timestamps;
-	List<long> temptimestamps;
-	List<Instructions> instruction = new List<Instructions>();
+	List<List<Vector2> > drawingpaths;
+	List<ParseEnums.Instructions> instruction;
+	List<ParseEnums.SlideType> SlideOrder;
 	int slideNumber = 0;
 	float deltaTime = 0f;
 	float startTime;
 	int timestampindex = 0;
+	int drawIndex = 0;
 	bool hasChanged = true;
 	bool once = false;
 
-	public enum SlideType {left, right, none};
-	public SlideType Slide = SlideType.left;
-	public string SlideScript = "script.txt";
-	public VideoPlayer vp; 
-
-	private List<SlideType> SlideOrder = new List<SlideType>();
-
 	// Use this for initialization
 	void Start () {
-		ParseSlideScript(SlideScript);
+		InstructionParser IP = transform.parent.parent.gameObject.GetComponent<InstructionParser>();
+		// while(IP.isDone == false){
+		// 	//wait.
+		// }
+		timestamps = IP.timestamps;
+		drawingpaths = IP.drawingpaths;
+		instruction = IP.instruction;
+		SlideOrder = IP.SlideOrder;
 		rend = gameObject.GetComponent<Renderer>();
 		mat = rend.material;
-		transform = gameObject.GetComponent<Transform>();
-		// foreach(long s in temptimestamps){
-		// 	print(s);
-		// }
+		maintexture = rend.material.mainTexture as Texture2D;
 	}
 	
 	void Update(){
@@ -46,6 +46,7 @@ public class SlideController : MonoBehaviour {
 			once = true;
 			startTime = Time.time;
 		}
+		
 		if(timestampindex < timestamps.Count-1){
 			float elapsedTime = Time.time - startTime;
 			if(hasChanged == true){
@@ -59,61 +60,57 @@ public class SlideController : MonoBehaviour {
 		}
 	}
 	
-	void ChangeSlide(string slideName){
-		Texture slide = Resources.Load("Slides/"+Slide.ToString()+"/"+slideName) as Texture;
-		mat.SetTexture("_MainTex",slide);
-		float aspectRatio = (float)slide.width/(float)slide.height;
-		transform.localScale = new Vector3(transform.localScale.y * aspectRatio, transform.localScale.y,transform.localScale.z);
-	}
-	
-	void ParseSlideScript(string slidescriptlocation){
-		StreamReader reader = File.OpenText("Assets/Resources/Slides/"+slidescriptlocation);
-		string line;
-		//temp timestamps returns the timestamps in milliseconds since the Unix epoch.
-		temptimestamps = new List<long>(); 
-		int i = 0;
-		while((line = reader.ReadLine()) != null){
-			string[] items = line.Split(' ');
-			temptimestamps.Add(long.Parse(items[0]));
-			instruction.Add((Instructions) System.Enum.Parse(typeof(Instructions),items[1]));
-			if(instruction[i] == Instructions.slide || instruction[i] == Instructions.draw || instruction[i] == Instructions.clear){
-				SlideOrder.Add((SlideType) System.Enum.Parse(typeof(SlideType),items[2]));
-			}
-			else{
-				SlideOrder.Add(SlideType.none);
-			}
-			i++;
-		}
-		timestamps = new List<float>();
-		timestamps.Add(0f);
-		for(int j=1; j < temptimestamps.Count; j++){
-			temptimestamps[j] -= temptimestamps[0];
-			timestamps.Add((float)temptimestamps[j] / 1000f);
-		}
-	}
-
-	void ParseInstruction(Instructions inst){
+	void ParseInstruction(ParseEnums.Instructions inst){
 		switch(inst){
-			case Instructions.start:
+			case ParseEnums.Instructions.start:
 				ChangeSlide(slideNumber.ToString());
 				break;
-			case Instructions.stop:
+			case ParseEnums.Instructions.stop:
 				slideNumber = 0;
 				ChangeSlide(slideNumber.ToString());
 				break;
-			case Instructions.slide:
+			case ParseEnums.Instructions.slide:
 				if(SlideOrder[timestampindex] == Slide){
 					slideNumber++;
 					ChangeSlide(slideNumber.ToString());
 				}
 				break;
-			case Instructions.video:
+			case ParseEnums.Instructions.video:
 				break;
-			case Instructions.draw:
+			case ParseEnums.Instructions.draw:
+				if(SlideOrder[timestampindex] == Slide){
+					Draw(slideNumber.ToString());
+					drawIndex++;
+				}
 				break;
-			case Instructions.clear:
+			case ParseEnums.Instructions.clear:
 				break;
 		}
+	}
+
+	void ChangeSlide(string slideName){
+		Texture slide = Resources.Load("Slides/"+Slide.ToString()+"/"+slideName) as Texture;
+		mat.SetTexture("_MainTex",slide);
+		maintexture = slide as Texture2D;
+		float aspectRatio = (float)slide.width/(float)slide.height;
+		transform.localScale = new Vector3(transform.localScale.y * aspectRatio, transform.localScale.y,transform.localScale.z);
+	}
+
+	void Draw(string slideName){
+		Texture2D maintexture = Resources.Load("Slides/"+Slide.ToString()+"/"+slideName) as Texture2D;
+
+		for(int i = 0; i< drawingpaths[drawIndex].Count; i++){
+			Vector2 coords = drawingpaths[drawIndex][i];
+			Color[] color = new Color[20*20];
+			for(int j = 0; j<20*20; j++){
+				color[j] = Color.black;
+			}
+			maintexture.SetPixels((int)coords.x,(int)coords.y,20,20,color,0); 
+		}
+		maintexture.Apply();
+		Texture newTexture = maintexture as Texture;
+		mat.SetTexture("_MainTex",newTexture);
+
 	}
 
 }
