@@ -11,6 +11,7 @@ public class PlayPauseController : MonoBehaviour {
 
 	private Renderer playRend;
 	private Renderer pauseRend;
+	private VideoController vc;
 
 	void Start(){
 		play = play.transform.GetChild(0).gameObject;
@@ -18,6 +19,7 @@ public class PlayPauseController : MonoBehaviour {
 
 		playRend = play.GetComponent<Renderer>();
 		pauseRend = pause.GetComponent<Renderer>();
+		vc = GetComponentInParent<VideoController>();
 	}
 	
 	// Update is called once per frame

@@ -12,6 +12,7 @@ public class VideoController : MonoBehaviour {
 	private GvrAudioSource GVRAS;
 	private Transform t;
 	private VideoPlayer vp;
+	
 
 	// Use this for initialization
 	void Start () {
