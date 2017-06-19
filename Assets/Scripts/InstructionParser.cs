@@ -52,6 +52,9 @@ public class InstructionParser : MonoBehaviour {
 			else{
 				SlideOrder.Add(ParseEnums.SlideType.none);
 			}
+			if(instruction[i] == ParseEnums.Instructions.draw){
+				ParseDrawingInstruction(items[4]);
+			}
 			i++;
 		}
 		timestamps = new List<float>();
@@ -79,6 +82,7 @@ public class InstructionParser : MonoBehaviour {
 				SlideOrder.Add(ParseEnums.SlideType.none);
 			}
 			if(instruction[i] == ParseEnums.Instructions.draw){
+				print("parsedrawing");
 				ParseDrawingInstruction(items[4]);
 			}
 			i++;

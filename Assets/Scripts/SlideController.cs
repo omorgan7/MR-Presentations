@@ -27,9 +27,10 @@ public class SlideController : MonoBehaviour {
 	void Start () {
 		InstructionParser IP = transform.parent.parent.gameObject.GetComponent<InstructionParser>();
 		if(IP.isDone == false){
-			Debug.LogError("Something bad happened to the parser.");
+			Debug.LogError("Something bad happened to the parser. Are you in parser debug mode?");
 			return;
 		}
+		
 		timestamps = IP.timestamps;
 		drawingpaths = IP.drawingpaths;
 		instruction = IP.instruction;
@@ -85,6 +86,9 @@ public class SlideController : MonoBehaviour {
 				}
 				break;
 			case ParseEnums.Instructions.clear:
+				if(SlideOrder[timestampindex] == Slide){
+					Clear(slideNumber.ToString());
+				}
 				break;
 		}
 	}
@@ -101,6 +105,7 @@ public class SlideController : MonoBehaviour {
 		Texture2D maintexture = Resources.Load("Slides/"+Slide.ToString()+"/"+slideName) as Texture2D;
 
 		for(int i = 0; i< drawingpaths[drawIndex].Count; i++){
+
 			Vector2 coords = drawingpaths[drawIndex][i];
 			Color[] color = new Color[20*20];
 			for(int j = 0; j<20*20; j++){
@@ -111,7 +116,11 @@ public class SlideController : MonoBehaviour {
 		maintexture.Apply();
 		Texture newTexture = maintexture as Texture;
 		mat.SetTexture("_MainTex",newTexture);
+	}
 
+	void Clear(string slideName){
+		Texture maintexture = Resources.Load("Slides/"+Slide.ToString()+"/"+slideName) as Texture2D;
+		mat.SetTexture("_MainTex",newTexture);
 	}
 
 
