@@ -120,7 +120,7 @@ public class SlideController : MonoBehaviour {
 
 	void Clear(string slideName){
 		Texture maintexture = Resources.Load("Slides/"+Slide.ToString()+"/"+slideName) as Texture2D;
-		mat.SetTexture("_MainTex",newTexture);
+		mat.SetTexture("_MainTex",maintexture);
 	}
 
 

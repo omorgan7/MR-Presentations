@@ -29,11 +29,7 @@ public class VideoController : MonoBehaviour {
 		t.localScale = new Vector3(t.localScale.y * aspectRatio, t.localScale.y,t.localScale.z);
 		vp.EnableAudioTrack(0, true);
     	vp.SetTargetAudioSource(0, audioSource);
-		vp.Play();
-		audioSource.Play();
-		if(GVRAS !=null){
-			GVRAS.Play();
-		}
+		ResumeVideo();
 	}
 	void StopVideo(){
 		vp.Stop();
@@ -47,6 +43,13 @@ public class VideoController : MonoBehaviour {
 		audioSource.Pause();
 		if(GVRAS !=null){
 			GVRAS.Pause();
+		}
+	}
+	void ResumeVideo(){
+		vp.Play();
+		audioSource.Play();
+		if(GVRAS !=null){
+			GVRAS.Play();
 		}
 	}
 }

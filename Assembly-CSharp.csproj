@@ -157,6 +157,7 @@
      <Compile Include="Assets\Scripts\CameraMouseController.cs" />
      <Compile Include="Assets\Scripts\InstructionParser.cs" />
      <Compile Include="Assets\Scripts\ParseEnums.cs" />
+     <Compile Include="Assets\Scripts\PlayPauseController.cs" />
      <Compile Include="Assets\Scripts\SlideController.cs" />
      <Compile Include="Assets\Scripts\TestPointerClick.cs" />
      <Compile Include="Assets\Scripts\VideoController.cs" />
