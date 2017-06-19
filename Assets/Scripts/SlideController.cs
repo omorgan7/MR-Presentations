@@ -26,9 +26,10 @@ public class SlideController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		InstructionParser IP = transform.parent.parent.gameObject.GetComponent<InstructionParser>();
-		// while(IP.isDone == false){
-		// 	//wait.
-		// }
+		if(IP.isDone == false){
+			Debug.LogError("Something bad happened to the parser.");
+			return;
+		}
 		timestamps = IP.timestamps;
 		drawingpaths = IP.drawingpaths;
 		instruction = IP.instruction;
@@ -112,5 +113,6 @@ public class SlideController : MonoBehaviour {
 		mat.SetTexture("_MainTex",newTexture);
 
 	}
+
 
 }

@@ -14,9 +14,10 @@ public class InstructionParser : MonoBehaviour {
 	public bool isDone = false;
 	public bool debug = true;
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		ParseSlideScript(SlideScript);
 		isDone = true;
+
 	}
 	void ParseSlideScript(string slidescriptlocation){
 		if(debug == true){
