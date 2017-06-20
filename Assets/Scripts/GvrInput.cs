@@ -4,35 +4,47 @@ using UnityEngine;
 
 public class GvrInput : MonoBehaviour {
 	
-	bool held = false;
-	GameObject heldObject;
-	Rigidbody rb;
-	// Update is called once per frame
-	void Update(){
-		    GvrLaserPointerImpl laserpointerimpl = (GvrLaserPointerImpl)GvrPointerManager.Pointer;
-			Vector3 end = laserpointerimpl.LineEndPoint;
-			Ray ray = new Ray(transform.position, transform.forward);
-			
-			int layerMask = 1 << 8;
-			//INTERACTIVE layer is on layer 8. 
-			//This is a bit shift to select for layer 8.
-			RaycastHit hit;
-			if (Physics.Raycast(ray, out hit, 100,layerMask)) {
-				GameObject objectDetected = hit.collider.gameObject;
-				if (GvrController.ClickButtonUp) {
-					objectDetected.SendMessage("GVRClick");
-				}
-				if(GvrController.AppButtonUp && held == false){
-					heldObject = objectDetected;
-					rb = heldObject.GetComponent<Rigidbody>();
+	float zPos;
+	Vector3 end;
+	Vector3 goal;
+	GameObject heldobject;
+	RaycastHit hit;
+	float length = 0f;
 
-				}
+	const int layerMask = 1 << 8;
+	//INTERACTIVE layer is on layer 8. 
+	//This is a bit shift to select for layer 8.
+
+	const float rayLength = 100f;
+
+	void FixedUpdate(){
+
+		GvrLaserPointerImpl laserpointerimpl = (GvrLaserPointerImpl)GvrPointerManager.Pointer;
+		Ray ray = new Ray(transform.position, transform.forward);
+
+		if (Physics.Raycast(ray, out hit, rayLength,layerMask)) {
+			GameObject objectDetected = hit.collider.gameObject;
+			if (GvrController.ClickButtonUp) {
+				objectDetected.SendMessage("GVRClick");
 			}
 			if(GvrController.AppButtonUp){
-				held = !held;
+				if(heldobject == null){
+					heldobject = objectDetected;
+					length = (ray.origin-hit.point).magnitude;
+					zPos = hit.point.z;
+				}
+				else{
+					heldobject = null;
+				}
 			}
-			if(held == true){
-				rb.position = new Vector3(hit.point.x,hit.point.y,rb.position.z);
-			}
+			goal = hit.point;
+		}
+		else if(GvrController.AppButtonUp){
+			heldobject = null;
+		}
+		if(heldobject !=null){
+			heldobject.transform.position = new Vector3(transform.position.x + length*transform.forward.x,transform.position.y + length*transform.forward.y,zPos);
+		}
+
 	}
 }

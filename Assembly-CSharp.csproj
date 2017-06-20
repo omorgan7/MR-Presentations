@@ -46,6 +46,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\DummyInteractive.cs" />
      <Compile Include="Assets\GoogleVR\Demos\Scripts\DemoInputManager.cs" />
      <Compile Include="Assets\GoogleVR\Demos\Scripts\DemoSceneManager.cs" />
      <Compile Include="Assets\GoogleVR\Demos\Scripts\GVRDemo\GVRDemoManager.cs" />
@@ -154,7 +155,10 @@
      <Compile Include="Assets\GoogleVR\Scripts\Utilities\GvrMathHelpers.cs" />
      <Compile Include="Assets\GoogleVR\Scripts\Utilities\GvrUIHelpers.cs" />
      <Compile Include="Assets\GoogleVR\Scripts\Video\GvrVideoPlayerTexture.cs" />
+     <Compile Include="Assets\PauseButton.cs" />
+     <Compile Include="Assets\PlayButton.cs" />
      <Compile Include="Assets\Scripts\CameraMouseController.cs" />
+     <Compile Include="Assets\Scripts\GVRInteractiveInterface.cs" />
      <Compile Include="Assets\Scripts\GvrInput.cs" />
      <Compile Include="Assets\Scripts\InstructionParser.cs" />
      <Compile Include="Assets\Scripts\ParseEnums.cs" />
