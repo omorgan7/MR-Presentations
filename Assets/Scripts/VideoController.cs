@@ -22,7 +22,7 @@ public class VideoController : MonoBehaviour {
 		vp = gameObject.GetComponent<VideoPlayer>();
 		PlayVideo(VideoToPlay);
 	}
-	void PlayVideo(VideoFiles vFile){
+	public void PlayVideo(VideoFiles vFile){
 		StopVideo();
 		vp.clip = Resources.Load("Videos/"+FileNames[(int)vFile]) as VideoClip;
 		VideoClip clip = vp.clip;
@@ -32,21 +32,21 @@ public class VideoController : MonoBehaviour {
     	vp.SetTargetAudioSource(0, audioSource);
 		ResumeVideo();
 	}
-	void StopVideo(){
+	public void StopVideo(){
 		vp.Stop();
 		audioSource.Stop();
 		if(GVRAS !=null){
 			GVRAS.Stop();
 		}
 	}
-	void PauseVideo(){
+	public void PauseVideo(){
 		vp.Pause();
 		audioSource.Pause();
 		if(GVRAS !=null){
 			GVRAS.Pause();
 		}
 	}
-	void ResumeVideo(){
+	public void ResumeVideo(){
 		vp.Play();
 		audioSource.Play();
 		if(GVRAS !=null){

@@ -155,6 +155,7 @@
      <Compile Include="Assets\GoogleVR\Scripts\Utilities\GvrUIHelpers.cs" />
      <Compile Include="Assets\GoogleVR\Scripts\Video\GvrVideoPlayerTexture.cs" />
      <Compile Include="Assets\Scripts\CameraMouseController.cs" />
+     <Compile Include="Assets\Scripts\GvrInput.cs" />
      <Compile Include="Assets\Scripts\InstructionParser.cs" />
      <Compile Include="Assets\Scripts\ParseEnums.cs" />
      <Compile Include="Assets\Scripts\PlayPauseController.cs" />
