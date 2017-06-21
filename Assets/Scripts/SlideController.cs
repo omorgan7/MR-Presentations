@@ -87,7 +87,7 @@ public class SlideController : MonoBehaviour {
 				break;
 			case ParseEnums.Instructions.clear:
 				if(SlideOrder[timestampindex] == Slide){
-					Clear(slideNumber.ToString());
+					Clear();
 				}
 				break;
 		}
@@ -102,8 +102,7 @@ public class SlideController : MonoBehaviour {
 	}
 
 	void Draw(string slideName){
-		Texture2D maintexture = Resources.Load("Slides/"+Slide.ToString()+"/"+slideName) as Texture2D;
-
+		Texture2D maintextureclone = Instantiate(mat.mainTexture) as Texture2D;
 		for(int i = 0; i< drawingpaths[drawIndex].Count; i++){
 
 			Vector2 coords = drawingpaths[drawIndex][i];
@@ -111,17 +110,14 @@ public class SlideController : MonoBehaviour {
 			for(int j = 0; j<20*20; j++){
 				color[j] = Color.black;
 			}
-			maintexture.SetPixels((int)coords.x,(int)coords.y,20,20,color,0); 
+			maintextureclone.SetPixels((int)coords.x,(int)coords.y,20,20,color,0); 
 		}
-		maintexture.Apply();
-		Texture newTexture = maintexture as Texture;
+		maintextureclone.Apply();
+		Texture newTexture = maintextureclone as Texture;
 		mat.SetTexture("_MainTex",newTexture);
 	}
 
-	void Clear(string slideName){
-		Texture maintexture = Resources.Load("Slides/"+Slide.ToString()+"/"+slideName) as Texture2D;
+	void Clear(){
 		mat.SetTexture("_MainTex",maintexture);
 	}
-
-
 }

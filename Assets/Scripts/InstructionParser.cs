@@ -82,7 +82,6 @@ public class InstructionParser : MonoBehaviour {
 				SlideOrder.Add(ParseEnums.SlideType.none);
 			}
 			if(instruction[i] == ParseEnums.Instructions.draw){
-				print("parsedrawing");
 				ParseDrawingInstruction(items[4]);
 			}
 			i++;
