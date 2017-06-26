@@ -26,8 +26,6 @@ public class InstructionParser : MonoBehaviour {
 		else{
 			AndroidParse(slidescriptlocation);
 		}
-		// #if UNITY_ANDROID
-		// #endif
 	}
 
 	void AndroidParse(string slidescriptlocation){

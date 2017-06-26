@@ -46,6 +46,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\ButtonSpawner.cs" />
      <Compile Include="Assets\DummyInteractive.cs" />
      <Compile Include="Assets\GoogleVR\Demos\Scripts\DemoInputManager.cs" />
      <Compile Include="Assets\GoogleVR\Demos\Scripts\DemoSceneManager.cs" />
@@ -157,6 +158,7 @@
      <Compile Include="Assets\GoogleVR\Scripts\Video\GvrVideoPlayerTexture.cs" />
      <Compile Include="Assets\PauseButton.cs" />
      <Compile Include="Assets\PlayButton.cs" />
+     <Compile Include="Assets\QuizParser.cs" />
      <Compile Include="Assets\Scripts\CameraMouseController.cs" />
      <Compile Include="Assets\Scripts\GVRInteractiveInterface.cs" />
      <Compile Include="Assets\Scripts\GvrInput.cs" />
@@ -173,6 +175,7 @@
      <None Include="Assets\GoogleVR\Demos\Environment\DemoEnvUnlitGrayscale.shader" />
      <None Include="Assets\Shaders\GreenScreen.shader" />
      <None Include="Assets\StreamingAssets\script.txt" />
+     <None Include="Assets\StreamingAssets\quiz.txt" />
      <None Include="Assets\GoogleVR\Shaders\GvrUnlitTransparentOverlay.shader" />
      <None Include="Assets\GoogleVR\Shaders\GvrUnlitTransparentOverlayColor.shader" />
      <None Include="Assets\GoogleVR\Demos\Shaders\GVRDemo\GVRDemoAmbientOcclusion.shader" />

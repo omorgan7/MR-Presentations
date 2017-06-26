@@ -11,10 +11,10 @@ public class GvrInput : MonoBehaviour {
 	RaycastHit hit;
 	float length = 0f;
 
-	const int layerMask = 1 << 8;
-	//INTERACTIVE layer is on layer 8. 
-	//This is a bit shift to select for layer 8.
-
+	const int layerMask = (1 << 8) | (1<<9); 
+	//This is a bit shift to select for layer 8 or 9.
+	//Interactive on 8, floor on 9.
+	public GameObject player;
 	const float rayLength = 100f;
 
 	void FixedUpdate(){
@@ -25,10 +25,14 @@ public class GvrInput : MonoBehaviour {
 		if (Physics.Raycast(ray, out hit, rayLength,layerMask)) {
 			GameObject objectDetected = hit.collider.gameObject;
 			if (GvrController.ClickButtonUp) {
-				objectDetected.SendMessage("GVRClick");
+				if(objectDetected.layer == 9){
+					player.transform.position = new Vector3(hit.point.x,player.transform.position.y,hit.point.z);
+				}else{
+					objectDetected.SendMessage("GVRClick");
+				}
 			}
 			if(GvrController.AppButtonUp){
-				if(heldobject == null){
+				if(heldobject == null && objectDetected.layer == 8){
 					heldobject = objectDetected;
 					length = (ray.origin-hit.point).magnitude;
 					zPos = hit.point.z;
