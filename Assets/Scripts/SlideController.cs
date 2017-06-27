@@ -8,6 +8,7 @@ public class SlideController : MonoBehaviour {
 	public ParseEnums.SlideType Slide = ParseEnums.SlideType.left;
 	public VideoPlayer vp; 
 
+	GameObject quizcontroller;
 	Renderer rend;
 	Material mat;
 	Texture2D maintexture;
@@ -38,6 +39,7 @@ public class SlideController : MonoBehaviour {
 		rend = gameObject.GetComponent<Renderer>();
 		mat = rend.material;
 		maintexture = rend.material.mainTexture as Texture2D;
+		quizcontroller = GameObject.Find("Quizzes");
 	}
 	
 	void Update(){
@@ -90,6 +92,13 @@ public class SlideController : MonoBehaviour {
 					Clear();
 				}
 				break;
+			case ParseEnums.Instructions.quiz:
+				if(SlideOrder[timestampindex] == Slide){
+					Quiz();
+				}
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -119,5 +128,8 @@ public class SlideController : MonoBehaviour {
 
 	void Clear(){
 		mat.SetTexture("_MainTex",maintexture);
+	}
+	void Quiz(){
+		quizcontroller.SendMessage("CreateButtonGrid");
 	}
 }

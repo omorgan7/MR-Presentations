@@ -8,8 +8,9 @@ public class QuizParser : MonoBehaviour {
 	public string quizloc = "quiz.txt";
 	public bool isDone = false;
 	public bool debug = true;
-
 	public List<List<string> > quizanswers = new List<List<string> >();
+
+	private char[] strsplitter = {'/'};
 
 	// Use this for initialization
 	void Awake () {
@@ -38,7 +39,7 @@ public class QuizParser : MonoBehaviour {
 		int i = 0;
 		while((line = strReader.ReadLine()) != null){
 			quizanswers.Add(new List<string>());
-			string[] answers = line.Split('/');
+			string[] answers = line.Split(strsplitter,System.StringSplitOptions.RemoveEmptyEntries);
 			foreach(string answer in answers){
 				quizanswers[i].Add(answer);
 			}
@@ -53,7 +54,7 @@ public class QuizParser : MonoBehaviour {
 		int i =0;
 		while((line = reader.ReadLine()) != null){
 			quizanswers.Add(new List<string>());
-			string[] answers = line.Split('/');
+			string[] answers = line.Split(strsplitter,System.StringSplitOptions.RemoveEmptyEntries);
 			foreach(string answer in answers){
 				quizanswers[i].Add(answer);
 			}
