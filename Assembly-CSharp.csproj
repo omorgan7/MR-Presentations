@@ -167,6 +167,7 @@
      <Compile Include="Assets\Scripts\QuizParser.cs" />
      <Compile Include="Assets\Scripts\SlideController.cs" />
      <Compile Include="Assets\Scripts\TestPointerClick.cs" />
+     <Compile Include="Assets\Scripts\TutorialPlayer.cs" />
      <Compile Include="Assets\Scripts\VideoController.cs" />
      <None Include="Assets\GoogleVR\Distortion\GvrDistortion.cginc" />
      <None Include="Assets\GoogleVR\Demos\Shaders\VideoDemo\VideoDemoInsideShader.shader" />
