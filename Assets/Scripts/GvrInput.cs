@@ -8,6 +8,7 @@ public class GvrInput : MonoBehaviour {
 	Vector3 end;
 	Vector3 goal;
 	GameObject heldobject;
+	Rigidbody heldrb;
 	RaycastHit hit;
 	float length = 0f;
 
@@ -34,20 +35,26 @@ public class GvrInput : MonoBehaviour {
 			if(GvrController.AppButtonUp){
 				if(heldobject == null && objectDetected.layer == 8){
 					heldobject = objectDetected;
+					heldrb = heldobject.GetComponent<Rigidbody>();
+					heldrb.useGravity = false;
 					length = (ray.origin-heldobject.transform.position).magnitude;
 				}
 				else{
-					heldobject = null;
+					heldrb.useGravity = true;
+					Drop();
 				}
 			}
 			goal = hit.point;
 		}
 		else if(GvrController.AppButtonUp){
-			heldobject = null;
+			Drop();
 		}
 		if(heldobject !=null){
-			heldobject.transform.position = length*transform.forward + transform.position;//new Vector3(transform.position.x + length*transform.forward.x,transform.position.y + length*transform.forward.y,zPos);
+			heldrb.MovePosition(length*transform.forward + transform.position);//new Vector3(transform.position.x + length*transform.forward.x,transform.position.y + length*transform.forward.y,zPos);
 		}
-
+	}
+	void Drop(){
+		heldobject = null;
+		heldrb = null;
 	}
 }
