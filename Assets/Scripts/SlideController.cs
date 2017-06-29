@@ -39,7 +39,7 @@ public class SlideController : MonoBehaviour {
 		rend = gameObject.GetComponent<Renderer>();
 		mat = rend.material;
 		maintexture = rend.material.mainTexture as Texture2D;
-		quizcontroller = GameObject.Find("Quizzes");
+		quizcontroller = GameObject.Find("Quizzes/"+Slide.ToString());
 	}
 	
 	void Update(){

@@ -16,36 +16,25 @@ public class ButtonSpawner : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		QuizParser QP = gameObject.GetComponent<QuizParser>();
+		QuizParser QP = gameObject.transform.parent.gameObject.GetComponent<QuizParser>();
 		quizanswers = QP.quizanswers;
 	}
 
 	public void CreateButtonGrid(){
 		NumButtons = quizanswers[quizIndex].Count;
-		if(NumButtons > 9 | NumButtons < 1 | quizIndex == quizanswers.Count){
+		if(NumButtons > 6 | NumButtons < 2 | quizIndex == quizanswers.Count){
 			return;
 		}
+		NumButtons = 2;
 		DestroyButtons();
 		ButtonClones = new GameObject[NumButtons];
 		int NumRows = NumButtons/3;
 		int NumExtraCols = NumButtons % 3;
-		int i = 0;
 		buttoncount = 0;
-		float yCoord, xCoord;
-		do{
-			yCoord = 0.4f*i;
-			for(int j = 0; j<3; j++){
-				xCoord = 0.2f + j*0.3f;
-				SpawnButton(xCoord,yCoord);
-			}
-			i++;
-		}while(i<NumRows-1);
-		yCoord = 0.4f*i;
-		float start, offset;
-		start = NumExtraCols == 1 ? 0.5f : 0.2f;  
-		offset = NumExtraCols == 2 ? 0.15f : 0f;
-		for(i = 0; i<NumExtraCols; i++){
-			xCoord = start + offset + i*0.3f;
+		float yCoord =0.5f, xCoord;
+		float spacer = 1.0f/((float)NumButtons + 1f);
+		for(int i = 0; i<NumButtons; i++){
+			xCoord=(i+1)*spacer;
 			SpawnButton(xCoord,yCoord);
 		}
 		quizIndex++;
@@ -56,7 +45,7 @@ public class ButtonSpawner : MonoBehaviour {
 		RectTransform rt = ButtonClones[buttoncount].GetComponent<RectTransform>();
 		rt.anchorMin = new Vector2(x,y);
 		rt.anchorMax = new Vector2(x,y);
-		ButtonClones[buttoncount].GetComponentInChildren<Text>().text = quizanswers[quizIndex][buttoncount];
+		//ButtonClones[buttoncount].GetComponentInChildren<Text>().text = quizanswers[quizIndex][buttoncount];
 		buttoncount++;
 	}
 	void DestroyButtons(){
