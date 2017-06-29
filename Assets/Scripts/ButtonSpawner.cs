@@ -25,7 +25,6 @@ public class ButtonSpawner : MonoBehaviour {
 		if(NumButtons > 6 | NumButtons < 2 | quizIndex == quizanswers.Count){
 			return;
 		}
-		NumButtons = 2;
 		DestroyButtons();
 		ButtonClones = new GameObject[NumButtons];
 		int NumRows = NumButtons/3;
@@ -45,7 +44,7 @@ public class ButtonSpawner : MonoBehaviour {
 		RectTransform rt = ButtonClones[buttoncount].GetComponent<RectTransform>();
 		rt.anchorMin = new Vector2(x,y);
 		rt.anchorMax = new Vector2(x,y);
-		//ButtonClones[buttoncount].GetComponentInChildren<Text>().text = quizanswers[quizIndex][buttoncount];
+		ButtonClones[buttoncount].GetComponentInChildren<Text>().text = quizanswers[quizIndex][buttoncount];
 		buttoncount++;
 	}
 	void DestroyButtons(){

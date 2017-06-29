@@ -50,7 +50,7 @@ public class GvrInput : MonoBehaviour {
 			Drop();
 		}
 		if(heldobject !=null){
-			heldrb.MovePosition(length*transform.forward + transform.position);//new Vector3(transform.position.x + length*transform.forward.x,transform.position.y + length*transform.forward.y,zPos);
+			heldrb.MovePosition(length*transform.forward + transform.position);
 		}
 	}
 	void Drop(){
