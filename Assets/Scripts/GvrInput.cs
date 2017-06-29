@@ -34,8 +34,7 @@ public class GvrInput : MonoBehaviour {
 			if(GvrController.AppButtonUp){
 				if(heldobject == null && objectDetected.layer == 8){
 					heldobject = objectDetected;
-					length = (ray.origin-hit.point).magnitude;
-					zPos = hit.point.z;
+					length = (ray.origin-heldobject.transform.position).magnitude;
 				}
 				else{
 					heldobject = null;
@@ -47,7 +46,7 @@ public class GvrInput : MonoBehaviour {
 			heldobject = null;
 		}
 		if(heldobject !=null){
-			heldobject.transform.position = new Vector3(transform.position.x + length*transform.forward.x,transform.position.y + length*transform.forward.y,zPos);
+			heldobject.transform.position = length*transform.forward + transform.position;//new Vector3(transform.position.x + length*transform.forward.x,transform.position.y + length*transform.forward.y,zPos);
 		}
 
 	}
