@@ -5,13 +5,12 @@ using UnityEngine.Video;
 
 [RequireComponent(typeof(VideoPlayer))]
 public class VideoController : MonoBehaviour {
-	string[] FileNames = {"Leonardo", "Shia", "Stormtrooper","Ken"};
-	public enum VideoFiles {Leonardo,Shia,Stormtrooper,Ken};
-	public VideoFiles VideoToPlay = VideoFiles.Shia;
+	//string[] FileNames = {"Leonardo", "Shia", "Stormtrooper","Ken"};
 	private AudioSource audioSource;
 	private GvrAudioSource GVRAS;
 	private Transform t;
 	private VideoPlayer vp;
+	private VideoEnums.VideoFiles videoplaying;
 	
 
 	// Use this for initialization
@@ -20,17 +19,21 @@ public class VideoController : MonoBehaviour {
 		GVRAS = gameObject.GetComponent<GvrAudioSource>();
 		t = gameObject.GetComponent<Transform>();
 		vp = gameObject.GetComponent<VideoPlayer>();
-		PlayVideo(VideoToPlay);
+		vp.Prepare();
 	}
-	public void PlayVideo(VideoFiles vFile){
+	public void PlayVideo(VideoEnums.VideoFiles vfile){
+		if(vfile == videoplaying){
+			return;
+		}
 		StopVideo();
-		vp.clip = Resources.Load("Videos/"+FileNames[(int)vFile]) as VideoClip;
+		vp.clip = Resources.Load("Videos/"+vfile.ToString()) as VideoClip;
 		VideoClip clip = vp.clip;
 		float aspectRatio = (float)clip.width/(float)clip.height;
-		t.localScale = new Vector3(t.localScale.y * aspectRatio, t.localScale.y,t.localScale.z);
+		transform.localScale = new Vector3(t.localScale.y * aspectRatio, t.localScale.y,t.localScale.z);
 		vp.EnableAudioTrack(0, true);
     	vp.SetTargetAudioSource(0, audioSource);
 		ResumeVideo();
+		videoplaying = vfile;
 	}
 	public void StopVideo(){
 		vp.Stop();

@@ -733,6 +733,16 @@ Prefab:
       propertyPath: vp
       value: 
       objectReference: {fileID: 1719230474}
+    - target: {fileID: 114220874010023850, guid: 20bb7550f4839454e963967a269c9b2b,
+        type: 2}
+      propertyPath: videotoplay
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114220874010023850, guid: 20bb7550f4839454e963967a269c9b2b,
+        type: 2}
+      propertyPath: vc
+      value: 
+      objectReference: {fileID: 1719230475}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 20bb7550f4839454e963967a269c9b2b, type: 2}
   m_IsPrefabParent: 0
@@ -1177,6 +1187,16 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114220874010023850, guid: 20bb7550f4839454e963967a269c9b2b,
+        type: 2}
+      propertyPath: videotoplay
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114220874010023850, guid: 20bb7550f4839454e963967a269c9b2b,
+        type: 2}
+      propertyPath: vc
+      value: 
+      objectReference: {fileID: 1719230475}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 20bb7550f4839454e963967a269c9b2b, type: 2}
   m_IsPrefabParent: 0
@@ -1987,6 +2007,12 @@ VideoPlayer:
   m_PrefabParentObject: {fileID: 328516551889149740, guid: 39d189033fcd2f74a9dd7d3e95621f6c,
     type: 2}
   m_PrefabInternal: {fileID: 1492609074}
+--- !u!114 &1719230475 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114994644337495608, guid: 39d189033fcd2f74a9dd7d3e95621f6c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1492609074}
+  m_Script: {fileID: 11500000, guid: 60872bee632a1a748a9e61339ff6c811, type: 3}
 --- !u!4 &1719230478 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4588099839605488, guid: 39d189033fcd2f74a9dd7d3e95621f6c,

@@ -27,8 +27,6 @@ public class ButtonSpawner : MonoBehaviour {
 		}
 		DestroyButtons();
 		ButtonClones = new GameObject[NumButtons];
-		int NumRows = NumButtons/3;
-		int NumExtraCols = NumButtons % 3;
 		buttoncount = 0;
 		float yCoord =0.5f, xCoord;
 		float spacer = 1.0f/((float)NumButtons + 1f);

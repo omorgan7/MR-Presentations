@@ -6,7 +6,8 @@ using UnityEngine.Video;
 public class SlideController : MonoBehaviour {
 
 	public ParseEnums.SlideType Slide = ParseEnums.SlideType.left;
-	public VideoPlayer vp; 
+	public VideoEnums.VideoFiles videotoplay = VideoEnums.VideoFiles.Tutorial;
+	public VideoController vc; 
 
 	GameObject quizcontroller;
 	Renderer rend;
@@ -17,13 +18,11 @@ public class SlideController : MonoBehaviour {
 	List<ParseEnums.Instructions> instruction;
 	List<ParseEnums.SlideType> SlideOrder;
 	int slideNumber = 0;
-	float deltaTime = 0f;
 	float startTime;
 	int timestampindex = 0;
 	int drawIndex = 0;
 	bool hasChanged = true;
-	bool once = false;
-
+	
 	// Use this for initialization
 	void Start () {
 		InstructionParser IP = transform.parent.parent.gameObject.GetComponent<InstructionParser>();
@@ -40,17 +39,11 @@ public class SlideController : MonoBehaviour {
 		mat = rend.material;
 		maintexture = rend.material.mainTexture as Texture2D;
 		quizcontroller = GameObject.Find("Quizzes/"+Slide.ToString());
+		startTime = Time.time;
 	}
 	
 	void Update(){
-		if(vp.isPlaying == false){
-			return;
-		}
-		if(once == false){
-			once = true;
-			startTime = Time.time;
-		}
-		
+
 		if(timestampindex < timestamps.Count-1){
 			float elapsedTime = Time.time - startTime;
 			if(hasChanged == true){
@@ -131,5 +124,8 @@ public class SlideController : MonoBehaviour {
 	}
 	void Quiz(){
 		quizcontroller.SendMessage("CreateButtonGrid");
+	}
+	void Video(){
+		vc.PlayVideo(videotoplay);
 	}
 }
