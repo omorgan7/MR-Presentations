@@ -22,7 +22,7 @@ public class SlideController : MonoBehaviour {
 	int timestampindex = 0;
 	int drawIndex = 0;
 	bool hasChanged = true;
-	
+
 	// Use this for initialization
 	void Start () {
 		InstructionParser IP = transform.parent.parent.gameObject.GetComponent<InstructionParser>();
@@ -73,6 +73,7 @@ public class SlideController : MonoBehaviour {
 				}
 				break;
 			case ParseEnums.Instructions.video:
+				Video();
 				break;
 			case ParseEnums.Instructions.draw:
 				if(SlideOrder[timestampindex] == Slide){
