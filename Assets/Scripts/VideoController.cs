@@ -30,8 +30,9 @@ public class VideoController : MonoBehaviour {
 		VideoClip clip = vp.clip;
 		float aspectRatio = (float)clip.width/(float)clip.height;
 		transform.localScale = new Vector3(t.localScale.y * aspectRatio, t.localScale.y,t.localScale.z);
-		//vp.EnableAudioTrack(0, true);
-    	//vp.SetTargetAudioSource(0, audioSource);
+		vp.EnableAudioTrack(0, true);
+    	vp.SetTargetAudioSource(0, audioSource);
+		GVRAS.clip = audioSource.clip;
 		ResumeVideo();
 		videoplaying = vfile;
 	}
@@ -59,7 +60,6 @@ public class VideoController : MonoBehaviour {
 		if(audioSource!=null){
 			audioSource.Play();
 		}
-		audioSource.Play();
 		if(GVRAS !=null){
 			GVRAS.Play();
 		}

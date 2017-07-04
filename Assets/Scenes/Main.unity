@@ -1738,9 +1738,20 @@ Prefab:
     - target: {fileID: 82051291176694572, guid: 39d189033fcd2f74a9dd7d3e95621f6c,
         type: 2}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 328516551889149740, guid: 39d189033fcd2f74a9dd7d3e95621f6c,
+        type: 2}
+      propertyPath: m_AudioOutputMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114086788238176612, guid: 39d189033fcd2f74a9dd7d3e95621f6c,
+        type: 2}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 82788849023533946, guid: 39d189033fcd2f74a9dd7d3e95621f6c, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 39d189033fcd2f74a9dd7d3e95621f6c, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1541651447
