@@ -6,9 +6,9 @@ using UnityEngine.Video;
 public class SlideController : MonoBehaviour {
 
 	public ParseEnums.SlideType Slide = ParseEnums.SlideType.left;
-	public VideoEnums.VideoFiles videotoplay = VideoEnums.VideoFiles.Tutorial;
 	public VideoController vc; 
 
+	VideoEnums.VideoFiles videotoplay;
 	GameObject quizcontroller;
 	Renderer rend;
 	Material mat;
@@ -17,11 +17,13 @@ public class SlideController : MonoBehaviour {
 	List<List<Vector2> > drawingpaths;
 	List<ParseEnums.Instructions> instruction;
 	List<ParseEnums.SlideType> SlideOrder;
-	int slideNumber = 0;
+	int slideNumber = 1;
 	float startTime;
 	int timestampindex = 0;
 	int drawIndex = 0;
 	bool hasChanged = true;
+	float elapsedTime = 0f;
+	float timeoffset = 0f;
 
 	// Use this for initialization
 	void Start () {
@@ -35,6 +37,8 @@ public class SlideController : MonoBehaviour {
 		drawingpaths = IP.drawingpaths;
 		instruction = IP.instruction;
 		SlideOrder = IP.SlideOrder;
+		videotoplay = IP.videotoplay;
+
 		rend = gameObject.GetComponent<Renderer>();
 		mat = rend.material;
 		maintexture = rend.material.mainTexture as Texture2D;
@@ -44,8 +48,8 @@ public class SlideController : MonoBehaviour {
 	
 	void Update(){
 
+		elapsedTime = Time.time - startTime + timeoffset;
 		if(timestampindex < timestamps.Count-1){
-			float elapsedTime = Time.time - startTime;
 			if(hasChanged == true){
 				ParseInstruction(instruction[timestampindex]);
 				hasChanged = false;
@@ -58,22 +62,27 @@ public class SlideController : MonoBehaviour {
 	}
 	
 	void ParseInstruction(ParseEnums.Instructions inst){
+
 		switch(inst){
+			case ParseEnums.Instructions.video:
+				Video();
+				timeoffset += timestamps[timestampindex+1]; //goto next instruction, which is hopefully start.
+				break;
 			case ParseEnums.Instructions.start:
 				ChangeSlide(slideNumber.ToString());
+				vc.SeekVideo(timestamps[timestampindex]);
+				vc.ResumeVideo();
 				break;
 			case ParseEnums.Instructions.stop:
 				slideNumber = 0;
 				ChangeSlide(slideNumber.ToString());
+				vc.StopVideo();
 				break;
 			case ParseEnums.Instructions.slide:
 				if(SlideOrder[timestampindex] == Slide){
 					slideNumber++;
 					ChangeSlide(slideNumber.ToString());
 				}
-				break;
-			case ParseEnums.Instructions.video:
-				Video();
 				break;
 			case ParseEnums.Instructions.draw:
 				if(SlideOrder[timestampindex] == Slide){

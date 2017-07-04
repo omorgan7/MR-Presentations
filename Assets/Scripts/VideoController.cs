@@ -30,30 +30,52 @@ public class VideoController : MonoBehaviour {
 		VideoClip clip = vp.clip;
 		float aspectRatio = (float)clip.width/(float)clip.height;
 		transform.localScale = new Vector3(t.localScale.y * aspectRatio, t.localScale.y,t.localScale.z);
-		vp.EnableAudioTrack(0, true);
-    	vp.SetTargetAudioSource(0, audioSource);
+		//vp.EnableAudioTrack(0, true);
+    	//vp.SetTargetAudioSource(0, audioSource);
 		ResumeVideo();
 		videoplaying = vfile;
 	}
 	public void StopVideo(){
 		vp.Stop();
-		audioSource.Stop();
+		if(audioSource !=null){
+			audioSource.Stop();
+		}
 		if(GVRAS !=null){
 			GVRAS.Stop();
 		}
 	}
 	public void PauseVideo(){
 		vp.Pause();
-		audioSource.Pause();
+		if(audioSource !=null){
+			audioSource.Pause();
+		}
+		
 		if(GVRAS !=null){
 			GVRAS.Pause();
 		}
 	}
 	public void ResumeVideo(){
 		vp.Play();
+		if(audioSource!=null){
+			audioSource.Play();
+		}
 		audioSource.Play();
 		if(GVRAS !=null){
 			GVRAS.Play();
 		}
+	}
+	public void SeekVideo(float seektime){
+		//this is needed because if the video hasn't loaded yet
+		//then the framerate is zero and it won't seek.
+		IEnumerator Videoseeker = _SeekVideo(seektime);
+		StartCoroutine(Videoseeker);
+	}
+
+	IEnumerator _SeekVideo(float seektime){
+		while(vp.isPlaying == false){
+			yield return null;
+		}
+		int framenumber = (int) (vp.frameRate * seektime);
+		vp.frame = framenumber;
 	}
 }

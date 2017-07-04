@@ -9,10 +9,10 @@ public class InstructionParser : MonoBehaviour {
 	public List<List<Vector2> > drawingpaths = new List<List<Vector2> >();
 	public List<ParseEnums.Instructions> instruction = new List<ParseEnums.Instructions>();
 	public List<ParseEnums.SlideType> SlideOrder = new List<ParseEnums.SlideType>();
+	public VideoEnums.VideoFiles videotoplay = VideoEnums.VideoFiles.Tutorial;
 
 	public string SlideScript = "script.txt";
 	public bool isDone = false;
-	public bool debug = true;
 	// Use this for initialization
 	void Awake () {
 		ParseSlideScript(SlideScript);
@@ -64,7 +64,7 @@ public class InstructionParser : MonoBehaviour {
 
 	void elseParse(string slidescriptlocation){
 		string line;
-		//temp timestamps returns the timestamps in milliseconds since the Unix epoch.
+		//temptimestamps returns the timestamps in milliseconds since the Unix epoch.
 		List<long> temptimestamps = new List<long>(); 
 		int i = 0;
 		StreamReader reader = File.OpenText("Assets/StreamingAssets/"+slidescriptlocation);

@@ -74,10 +74,10 @@ Material:
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
-    - _slope: 0.367
-    - _thresh: 0.6
+    - _slope: 0.2
+    - _thresh: 0.8
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
-    - _keyingColor: {r: 0.07058824, g: 0.9843138, b: 0.03529412, a: 1}
+    - _keyingColor: {r: 0, g: 1, b: 0.24705882, a: 1}
