@@ -7,7 +7,6 @@ public class QuizParser : MonoBehaviour {
 
 	public string quizloc = "quiz.txt";
 	public bool isDone = false;
-	public bool debug = true;
 	public List<List<string> > quizanswers = new List<List<string> >();
 
 	private char[] strsplitter = {'/'};
@@ -19,12 +18,11 @@ public class QuizParser : MonoBehaviour {
 
 	}
 	void ParseQuizScript(string quizloc){
-		if(debug == true){
-			elseParse(quizloc);
-		}
-		else{
+		#if UNITY_ANDROID && !UNITY_EDITOR
 			AndroidParse(quizloc);
-		}
+		#else
+			elseParse(quizloc);
+		#endif
 	}
 
 	void AndroidParse(string quizloc){

@@ -20,12 +20,11 @@ public class InstructionParser : MonoBehaviour {
 
 	}
 	void ParseSlideScript(string slidescriptlocation){
-		if(debug == true){
-			elseParse(slidescriptlocation);
-		}
-		else{
+		#if UNITY_ANDROID && !UNITY_EDITOR
 			AndroidParse(slidescriptlocation);
-		}
+		#else
+			elseParse(slidescriptlocation);
+		#endif
 	}
 
 	void AndroidParse(string slidescriptlocation){
