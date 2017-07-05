@@ -62,7 +62,6 @@ public class SlideController : MonoBehaviour {
 	}
 	
 	void ParseInstruction(ParseEnums.Instructions inst){
-
 		switch(inst){
 			case ParseEnums.Instructions.video:
 				Video();

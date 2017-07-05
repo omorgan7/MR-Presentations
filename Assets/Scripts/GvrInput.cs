@@ -16,6 +16,8 @@ public class GvrInput : MonoBehaviour {
 	//This is a bit shift to select for layer 8 or 9.
 	//Interactive on 8, floor on 9.
 	public GameObject player;
+	public FadeController fadecontroller;
+	public float shortduration = 0.5f;
 	const float rayLength = 100f;
 
 	void FixedUpdate(){
@@ -27,7 +29,8 @@ public class GvrInput : MonoBehaviour {
 			GameObject objectDetected = hit.collider.gameObject;
 			if (GvrController.ClickButtonUp) {
 				if(objectDetected.layer == 9){
-					player.transform.position = new Vector3(hit.point.x,player.transform.position.y,hit.point.z);
+					fadecontroller.FadeOut(shortduration);
+					StartCoroutine(MovePlayer(hit.point));
 				}else{
 					objectDetected.SendMessage("GVRClick");
 				}
@@ -56,5 +59,15 @@ public class GvrInput : MonoBehaviour {
 	void Drop(){
 		heldobject = null;
 		heldrb = null;
+	}
+	void _MovePlayer(Vector3 pos){
+		player.transform.position = new Vector3(pos.x,player.transform.position.y,pos.z);
+	}
+	IEnumerator MovePlayer(Vector3 pos){
+		while(fadecontroller.isDone == false){
+			yield return null;
+		}
+		_MovePlayer(pos);
+		fadecontroller.FadeIn(shortduration);
 	}
 }

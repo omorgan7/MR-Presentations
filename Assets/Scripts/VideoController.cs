@@ -32,6 +32,7 @@ public class VideoController : MonoBehaviour {
 		transform.localScale = new Vector3(t.localScale.y * aspectRatio, t.localScale.y,t.localScale.z);
 		vp.EnableAudioTrack(0, true);
     	vp.SetTargetAudioSource(0, audioSource);
+		vp.isLooping = false;
 		GVRAS.clip = audioSource.clip;
 		ResumeVideo();
 		videoplaying = vfile;

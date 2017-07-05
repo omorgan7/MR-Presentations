@@ -157,6 +157,7 @@
      <Compile Include="Assets\Scripts\ButtonSpawner.cs" />
      <Compile Include="Assets\Scripts\CameraMouseController.cs" />
      <Compile Include="Assets\Scripts\DummyInteractive.cs" />
+     <Compile Include="Assets\Scripts\FadeController.cs" />
      <Compile Include="Assets\Scripts\GVRInteractiveInterface.cs" />
      <Compile Include="Assets\Scripts\GvrInput.cs" />
      <Compile Include="Assets\Scripts\InstructionParser.cs" />
@@ -164,6 +165,7 @@
      <Compile Include="Assets\Scripts\PauseButton.cs" />
      <Compile Include="Assets\Scripts\PlayButton.cs" />
      <Compile Include="Assets\Scripts\PlayPauseController.cs" />
+     <Compile Include="Assets\Scripts\QuestionMarkController.cs" />
      <Compile Include="Assets\Scripts\QuizParser.cs" />
      <Compile Include="Assets\Scripts\SlideController.cs" />
      <Compile Include="Assets\Scripts\TestPointerClick.cs" />
