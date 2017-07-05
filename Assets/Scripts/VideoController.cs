@@ -6,6 +6,9 @@ using UnityEngine.Video;
 [RequireComponent(typeof(VideoPlayer))]
 public class VideoController : MonoBehaviour {
 	//string[] FileNames = {"Leonardo", "Shia", "Stormtrooper","Ken"};
+
+	public bool userhaspaused = false;
+
 	private AudioSource audioSource;
 	private GvrAudioSource GVRAS;
 	private Transform t;
@@ -47,6 +50,7 @@ public class VideoController : MonoBehaviour {
 		}
 	}
 	public void PauseVideo(){
+		userhaspaused = true;
 		vp.Pause();
 		if(audioSource !=null){
 			audioSource.Pause();
@@ -64,6 +68,7 @@ public class VideoController : MonoBehaviour {
 		if(GVRAS !=null){
 			GVRAS.Play();
 		}
+		userhaspaused = false;
 	}
 	public void SeekVideo(float seektime){
 		//this is needed because if the video hasn't loaded yet

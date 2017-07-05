@@ -6,7 +6,7 @@ using UnityEngine.Video;
 public class SlideController : MonoBehaviour {
 
 	public ParseEnums.SlideType Slide = ParseEnums.SlideType.left;
-	public VideoController vc; 
+	public VideoController vc;
 
 	VideoEnums.VideoFiles videotoplay;
 	GameObject quizcontroller;
@@ -24,6 +24,7 @@ public class SlideController : MonoBehaviour {
 	bool hasChanged = true;
 	float elapsedTime = 0f;
 	float timeoffset = 0f;
+	bool userhaspaused = false;
 
 	// Use this for initialization
 	void Start () {
@@ -48,16 +49,21 @@ public class SlideController : MonoBehaviour {
 	
 	void Update(){
 
-		elapsedTime = Time.time - startTime + timeoffset;
-		if(timestampindex < timestamps.Count-1){
-			if(hasChanged == true){
-				ParseInstruction(instruction[timestampindex]);
-				hasChanged = false;
+		if(vc.userhaspaused == false){
+			elapsedTime = Time.time - startTime + timeoffset;
+			if(timestampindex < timestamps.Count-1){
+				if(hasChanged == true){
+					ParseInstruction(instruction[timestampindex]);
+					hasChanged = false;
+				}
+				if(elapsedTime >= timestamps[timestampindex+1]){
+					hasChanged = true;
+					timestampindex++;
+				}
 			}
-			if(elapsedTime >= timestamps[timestampindex+1]){
-				hasChanged = true;
-				timestampindex++;
-			}
+		}
+		else{
+			timeoffset -= Time.deltaTime;
 		}
 	}
 	
@@ -77,30 +83,28 @@ public class SlideController : MonoBehaviour {
 				ChangeSlide(slideNumber.ToString());
 				vc.StopVideo();
 				break;
-			case ParseEnums.Instructions.slide:
-				if(SlideOrder[timestampindex] == Slide){
+			default:
+				break;
+		}
+		if(SlideOrder[timestampindex] == Slide){
+			switch(inst){
+				case ParseEnums.Instructions.slide:
 					slideNumber++;
 					ChangeSlide(slideNumber.ToString());
-				}
 				break;
 			case ParseEnums.Instructions.draw:
-				if(SlideOrder[timestampindex] == Slide){
 					Draw(slideNumber.ToString());
 					drawIndex++;
-				}
 				break;
 			case ParseEnums.Instructions.clear:
-				if(SlideOrder[timestampindex] == Slide){
 					Clear();
-				}
 				break;
 			case ParseEnums.Instructions.quiz:
-				if(SlideOrder[timestampindex] == Slide){
 					Quiz();
-				}
 				break;
 			default:
 				break;
+			}
 		}
 	}
 
