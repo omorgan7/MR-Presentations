@@ -17,10 +17,12 @@ public class SlideController : MonoBehaviour {
 	List<List<Vector2> > drawingpaths;
 	List<ParseEnums.Instructions> instruction;
 	List<ParseEnums.SlideType> SlideOrder;
+	List<string> tags;
 	int slideNumber = 1;
 	float startTime;
 	int timestampindex = 0;
 	int drawIndex = 0;
+	int tagIndex = 0;
 	bool hasChanged = true;
 	float elapsedTime = 0f;
 	float timeoffset = 0f;
@@ -39,6 +41,7 @@ public class SlideController : MonoBehaviour {
 		instruction = IP.instruction;
 		SlideOrder = IP.SlideOrder;
 		videotoplay = IP.videotoplay;
+		tags = IP.tags;
 
 		rend = gameObject.GetComponent<Renderer>();
 		mat = rend.material;
@@ -70,8 +73,7 @@ public class SlideController : MonoBehaviour {
 	void ParseInstruction(ParseEnums.Instructions inst){
 		switch(inst){
 			case ParseEnums.Instructions.video:
-				Video();
-				timeoffset += timestamps[timestampindex+1]; //goto next instruction, which is hopefully start.
+				NextInstruction();
 				break;
 			case ParseEnums.Instructions.start:
 				ChangeSlide(slideNumber.ToString());
@@ -82,6 +84,11 @@ public class SlideController : MonoBehaviour {
 				slideNumber = 0;
 				ChangeSlide(slideNumber.ToString());
 				vc.StopVideo();
+				break;
+			case ParseEnums.Instructions.tag:
+				Video(tagIndex);
+				tagIndex++;
+				NextInstruction();
 				break;
 			default:
 				break;
@@ -106,6 +113,10 @@ public class SlideController : MonoBehaviour {
 				break;
 			}
 		}
+	}
+
+	void NextInstruction(){
+		timeoffset += timestamps[timestampindex+1]; //goto next instruction
 	}
 
 	void ChangeSlide(string slideName){
@@ -138,7 +149,7 @@ public class SlideController : MonoBehaviour {
 	void Quiz(){
 		quizcontroller.SendMessage("CreateButtonGrid");
 	}
-	void Video(){
-		vc.PlayVideo(videotoplay);
+	void Video(int i){
+		vc.PlayVideo(videotoplay,tags[i]);
 	}
 }

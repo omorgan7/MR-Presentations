@@ -48,11 +48,11 @@ VideoClipImporter:
     encodedWidth: 1280
     encodedHeight: 720
     encodedStartFrame: 0
-    encodedEndFrame: 1900
+    encodedEndFrame: 1898
     streamedResource:
       source: library/metadata/b0/b01b551f66af95545b47360561be6732.resource
       offset: 0
-      size: 25630123
+      size: 25630235
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -13,7 +13,7 @@ public class VideoController : MonoBehaviour {
 	private GvrAudioSource GVRAS;
 	private Transform t;
 	private VideoPlayer vp;
-	private VideoEnums.VideoFiles videoplaying;
+	private string videoplaying;
 	
 
 	// Use this for initialization
@@ -24,12 +24,14 @@ public class VideoController : MonoBehaviour {
 		vp = gameObject.GetComponent<VideoPlayer>();
 		vp.Prepare();
 	}
-	public void PlayVideo(VideoEnums.VideoFiles vfile){
+	public void PlayVideo(VideoEnums.VideoFiles vdir,string vfile){
 		if(vfile == videoplaying){
 			return;
 		}
+		
+		videoplaying = vfile;
 		StopVideo();
-		vp.clip = Resources.Load("Videos/"+vfile.ToString()) as VideoClip;
+		vp.clip = Resources.Load("Videos/"+vdir.ToString()+"/"+vfile) as VideoClip;
 		VideoClip clip = vp.clip;
 		float aspectRatio = (float)clip.width/(float)clip.height;
 		transform.localScale = new Vector3(t.localScale.y * aspectRatio, t.localScale.y,t.localScale.z);
@@ -38,7 +40,6 @@ public class VideoController : MonoBehaviour {
 		vp.isLooping = false;
 		GVRAS.clip = audioSource.clip;
 		ResumeVideo();
-		videoplaying = vfile;
 	}
 	public void StopVideo(){
 		vp.Stop();

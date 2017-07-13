@@ -9,6 +9,7 @@ public class InstructionParser : MonoBehaviour {
 	public List<List<Vector2> > drawingpaths = new List<List<Vector2> >();
 	public List<ParseEnums.Instructions> instruction = new List<ParseEnums.Instructions>();
 	public List<ParseEnums.SlideType> SlideOrder = new List<ParseEnums.SlideType>();
+	public List<string> tags = new List<string>();
 	public VideoEnums.VideoFiles videotoplay = VideoEnums.VideoFiles.Tutorial;
 
 	public string SlideScript = "script.txt";
@@ -45,7 +46,7 @@ public class InstructionParser : MonoBehaviour {
 			string[] items = line.Split(' ');
 			temptimestamps.Add(long.Parse(items[0]));
 			instruction.Add((ParseEnums.Instructions) System.Enum.Parse(typeof(ParseEnums.Instructions),items[1]));
-			if(instruction[i] == ParseEnums.Instructions.slide || instruction[i] == ParseEnums.Instructions.draw || instruction[i] == ParseEnums.Instructions.clear){
+			if(instruction[i] == ParseEnums.Instructions.slide || instruction[i] == ParseEnums.Instructions.draw || instruction[i] == ParseEnums.Instructions.clear || instruction[i] == ParseEnums.Instructions.quiz){
 				SlideOrder.Add((ParseEnums.SlideType) System.Enum.Parse(typeof(ParseEnums.SlideType),items[2]));
 			}
 			else{
@@ -53,6 +54,9 @@ public class InstructionParser : MonoBehaviour {
 			}
 			if(instruction[i] == ParseEnums.Instructions.draw){
 				ParseDrawingInstruction(items[4]);
+			}
+			if(instruction[i] == ParseEnums.Instructions.tag){
+				tags.Add(items[2]);
 			}
 			i++;
 		}
