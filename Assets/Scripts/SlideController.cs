@@ -53,8 +53,6 @@ public class SlideController : MonoBehaviour {
 	void Update(){
 		if(timestampindex < timestamps.Count-1){
 			elapsedTime = Time.time - startTime + timeoffset;
-			print("elapsed time is"+elapsedTime);
-			print(vc.isDone);
 			if(hasChanged == true){
 				ParseInstruction(instruction[timestampindex]);
 				hasChanged = false;
