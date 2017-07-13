@@ -51,21 +51,20 @@ public class SlideController : MonoBehaviour {
 	}
 	
 	void Update(){
-
-		if(vc.userhaspaused == false){
+		if(timestampindex < timestamps.Count-1){
 			elapsedTime = Time.time - startTime + timeoffset;
-			if(timestampindex < timestamps.Count-1){
-				if(hasChanged == true){
-					ParseInstruction(instruction[timestampindex]);
-					hasChanged = false;
-				}
-				if(elapsedTime >= timestamps[timestampindex+1]){
-					hasChanged = true;
-					timestampindex++;
-				}
+			print("elapsed time is"+elapsedTime);
+			print(vc.isDone);
+			if(hasChanged == true){
+				ParseInstruction(instruction[timestampindex]);
+				hasChanged = false;
+			}
+			if(elapsedTime >= timestamps[timestampindex+1]){
+				hasChanged = true;
+				timestampindex++;
 			}
 		}
-		else{
+		if(vc.userhaspaused || vc.isDone == false){
 			timeoffset -= Time.deltaTime;
 		}
 	}
@@ -81,8 +80,6 @@ public class SlideController : MonoBehaviour {
 				vc.ResumeVideo();
 				break;
 			case ParseEnums.Instructions.stop:
-				slideNumber = 0;
-				ChangeSlide(slideNumber.ToString());
 				vc.StopVideo();
 				break;
 			case ParseEnums.Instructions.tag:
@@ -116,7 +113,7 @@ public class SlideController : MonoBehaviour {
 	}
 
 	void NextInstruction(){
-		timeoffset += timestamps[timestampindex+1]; //goto next instruction
+		timeoffset += timestamps[timestampindex+1]-timestamps[timestampindex]; //goto next instruction
 	}
 
 	void ChangeSlide(string slideName){

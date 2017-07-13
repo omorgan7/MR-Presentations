@@ -34,7 +34,7 @@ public class InstructionParser : MonoBehaviour {
 		while(file.isDone == false){
 		}
 		string contents = file.text;
-		StringReader Reader = new StringReader(contents);
+		StringReader reader = new StringReader(contents);
 
 		#else
 

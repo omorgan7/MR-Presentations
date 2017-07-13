@@ -8,7 +8,7 @@ public class VideoController : MonoBehaviour {
 	//string[] FileNames = {"Leonardo", "Shia", "Stormtrooper","Ken"};
 
 	public bool userhaspaused = false;
-
+	public bool isDone = false;
 	private AudioSource audioSource;
 	private GvrAudioSource GVRAS;
 	private Transform t;
@@ -24,11 +24,15 @@ public class VideoController : MonoBehaviour {
 		vp = gameObject.GetComponent<VideoPlayer>();
 		vp.Prepare();
 	}
+	
+	void Update(){
+		isDone = vp.isPlaying;
+	}
+
 	public void PlayVideo(VideoEnums.VideoFiles vdir,string vfile){
 		if(vfile == videoplaying){
 			return;
 		}
-		
 		videoplaying = vfile;
 		StopVideo();
 		vp.clip = Resources.Load("Videos/"+vdir.ToString()+"/"+vfile) as VideoClip;
