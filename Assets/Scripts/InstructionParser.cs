@@ -15,64 +15,37 @@ public class InstructionParser : MonoBehaviour {
 	public bool isDone = false;
 	// Use this for initialization
 	void Awake () {
-		ParseSlideScript(SlideScript);
+		Parse(SlideScript);
 		isDone = true;
 
 	}
-	void ParseSlideScript(string slidescriptlocation){
-		#if UNITY_ANDROID && !UNITY_EDITOR
-			AndroidParse(slidescriptlocation);
-		#else
-			elseParse(slidescriptlocation);
-		#endif
-	}
 
-	void AndroidParse(string slidescriptlocation){
+	void Parse(string slidescriptlocation){
 		string line;
 		//temp timestamps returns the timestamps in milliseconds since the Unix epoch.
 		List<long> temptimestamps = new List<long>(); 
 		int i = 0;
+
+		#if UNITY_ANDROID && !UNITY_EDITOR
+
 		string path = "jar:file://" + Application.dataPath + "!/assets/"+slidescriptlocation;
 		WWW file = new WWW(path);
 		while(file.isDone == false){
 		}
-		//StartCoroutine(FinishDownload(path));
 		string contents = file.text;
-		StringReader strReader = new StringReader(contents);
-		while((line = strReader.ReadLine()) != null){
-			string[] items = line.Split(' ');
-			temptimestamps.Add(long.Parse(items[0]));
-			instruction.Add((ParseEnums.Instructions) System.Enum.Parse(typeof(ParseEnums.Instructions),items[1]));
-			if(instruction[i] == ParseEnums.Instructions.slide || instruction[i] == ParseEnums.Instructions.draw || instruction[i] == ParseEnums.Instructions.clear){
-				SlideOrder.Add((ParseEnums.SlideType) System.Enum.Parse(typeof(ParseEnums.SlideType),items[2]));
-			}
-			else{
-				SlideOrder.Add(ParseEnums.SlideType.none);
-			}
-			if(instruction[i] == ParseEnums.Instructions.draw){
-				ParseDrawingInstruction(items[4]);
-			}
-			i++;
-		}
-		timestamps = new List<float>();
-		timestamps.Add(0f);
-		for(int j=1; j < temptimestamps.Count; j++){
-			temptimestamps[j] -= temptimestamps[0];
-			timestamps.Add((float)temptimestamps[j] / 1000f);
-		}
-	}
+		StringReader Reader = new StringReader(contents);
 
-	void elseParse(string slidescriptlocation){
-		string line;
-		//temptimestamps returns the timestamps in milliseconds since the Unix epoch.
-		List<long> temptimestamps = new List<long>(); 
-		int i = 0;
+		#else
+
 		StreamReader reader = File.OpenText("Assets/StreamingAssets/"+slidescriptlocation);
+
+		#endif
+
 		while((line = reader.ReadLine()) != null){
 			string[] items = line.Split(' ');
 			temptimestamps.Add(long.Parse(items[0]));
 			instruction.Add((ParseEnums.Instructions) System.Enum.Parse(typeof(ParseEnums.Instructions),items[1]));
-			if(instruction[i] == ParseEnums.Instructions.slide || instruction[i] == ParseEnums.Instructions.draw || instruction[i] == ParseEnums.Instructions.clear || instruction[i] == ParseEnums.Instructions.quiz){
+			if(instruction[i] == ParseEnums.Instructions.slide || instruction[i] == ParseEnums.Instructions.draw || instruction[i] == ParseEnums.Instructions.clear){
 				SlideOrder.Add((ParseEnums.SlideType) System.Enum.Parse(typeof(ParseEnums.SlideType),items[2]));
 			}
 			else{
