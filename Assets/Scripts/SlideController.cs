@@ -84,6 +84,8 @@ public class SlideController : MonoBehaviour {
 	void ParseInstruction(ParseEnums.Instructions inst){
 		switch(inst){
 			case ParseEnums.Instructions.video:
+				startTime = Time.time;
+				timeoffset = 0f;
 				NextInstruction();
 				break;
 			case ParseEnums.Instructions.start:
@@ -93,8 +95,6 @@ public class SlideController : MonoBehaviour {
 				break;
 			case ParseEnums.Instructions.stop:
 				vc.StopVideo();
-				startTime = Time.time;
-				timeoffset = 0f;
 				if(invideofork){
 					NextInstruction();
 				}
@@ -200,9 +200,9 @@ public class SlideController : MonoBehaviour {
 			}
 		}
 		//j now contains the precise instruction to jump to.
-		timestampindex = j;
+		timestampindex = j-1; //jump to the instruction before tag, which hopefully, is video.
 		tagIndex = i;
-		ParseInstruction(ParseEnums.Instructions.tag);
+		ParseInstruction(instruction[timestampindex]);
 		invideofork = true;
 	}
 }

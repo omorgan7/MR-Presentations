@@ -338,7 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47079efe676ba461faa8216ae8827277, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SceneIndex: 1
+  SceneIndex: 2
 --- !u!1 &774351100
 GameObject:
   m_ObjectHideFlags: 0
@@ -616,4 +616,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadingtext: {fileID: 159093508}
-  scenestate: {fileID: 524831603}

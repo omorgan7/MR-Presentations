@@ -45,7 +45,7 @@ public class ButtonSpawner : MonoBehaviour {
 		ButtonClones[buttoncount].GetComponentInChildren<Text>().text = quizanswers[quizIndex][buttoncount];
 		buttoncount++;
 	}
-	void DestroyButtons(){
+	public void DestroyButtons(){
 		if(ButtonClones == null){
 			return;
 		}

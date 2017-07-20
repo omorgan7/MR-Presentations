@@ -15,5 +15,6 @@ public class ButtonClicker : MonoBehaviour {
 	}
 	public void TaskOnClick(){
 		slidecontroller.RecieveAnswer(response);
+		transform.parent.gameObject.GetComponent<ButtonSpawner>().DestroyButtons();
 	}
 }

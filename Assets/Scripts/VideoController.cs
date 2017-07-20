@@ -33,7 +33,6 @@ public class VideoController : MonoBehaviour {
 		if(vfile == videoplaying){
 			return;
 		}
-		print("I'm playing");
 		videoplaying = vfile;
 		StopVideo();
 		vp.clip = Resources.Load("Videos/"+vdir.ToString()+"/"+vfile) as VideoClip;
