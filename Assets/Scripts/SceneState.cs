@@ -6,5 +6,5 @@ public class SceneState : MonoBehaviour {
 	void Awake(){
 		DontDestroyOnLoad(gameObject);
 	}
-	public Object SceneToChangeTo;
+	public int SceneIndex;
 }

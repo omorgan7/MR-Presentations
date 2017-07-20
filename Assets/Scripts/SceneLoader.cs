@@ -12,6 +12,7 @@ public class SceneLoader : MonoBehaviour {
 	AsyncOperation ao;
 
 	void Start(){
+		print("starting to load");
 		StartCoroutine(LoadNextLevel());
 	}
 
@@ -20,7 +21,8 @@ public class SceneLoader : MonoBehaviour {
 		loadingtext.color = new Color(loadingtext.color.r, loadingtext.color.g, loadingtext.color.b, Mathf.PingPong(Time.time, 1));
 	}
 	IEnumerator LoadNextLevel(){
-		ao = SceneManager.LoadSceneAsync(scenestate.SceneToChangeTo.name);
+		ao = SceneManager.LoadSceneAsync(scenestate.SceneIndex);
+		print("did we get here?");
 		yield return ao;
 	}
 }

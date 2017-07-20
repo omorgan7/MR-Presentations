@@ -11,3 +11,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tutorial.unity
     guid: 98c8f2fd581c8cf4f9d18b257378601e
+  - enabled: 1
+    path: Assets/Scenes/Lecture.unity
+    guid: d681a6aa215f74ffe8b9107a2d8828d1
