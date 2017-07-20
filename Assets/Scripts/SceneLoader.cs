@@ -7,12 +7,12 @@ using UnityEngine.SceneManagement;
 public class SceneLoader : MonoBehaviour {
 
 	public Text loadingtext;
-	public SceneState scenestate;
-
+	SceneState scenestate;
 	AsyncOperation ao;
 
 	void Start(){
-		print("starting to load");
+		var temp = GameObject.Find("SceneStatePreserver");
+		scenestate = temp.GetComponent<SceneState>();
 		StartCoroutine(LoadNextLevel());
 	}
 
@@ -22,7 +22,6 @@ public class SceneLoader : MonoBehaviour {
 	}
 	IEnumerator LoadNextLevel(){
 		ao = SceneManager.LoadSceneAsync(scenestate.SceneIndex);
-		print("did we get here?");
 		yield return ao;
 	}
 }

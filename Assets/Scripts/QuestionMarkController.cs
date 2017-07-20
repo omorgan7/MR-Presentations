@@ -5,8 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class QuestionMarkController : MonoBehaviour, IInteractive {
 	
-	public Object tutorialscene;
+	
+	public int SceneIndex = 2; //hope that the tutorial is at one.
 	public FadeController fadecontroller;
+	private SceneState scenestate;
+
+	void Start(){
+		var temp = GameObject.Find("SceneStatePreserver");
+		scenestate = temp.GetComponent<SceneState>();
+	}
+
 	public void GVRClick(){
 		fadecontroller.FadeOut();
 		StartCoroutine(Fade());
@@ -15,6 +23,7 @@ public class QuestionMarkController : MonoBehaviour, IInteractive {
 		while(fadecontroller.isDone == false){
 			yield return null;
 		}
-		SceneManager.LoadScene(tutorialscene.name);
+		scenestate.SceneIndex = SceneIndex;
+		SceneManager.LoadScene(0);
 	}
 }
