@@ -1,2 +1,4 @@
-/answer a/answer b/answer c/
-/answer different a/answer different b/answer different c/
+/a/b/c/
+/a/b/c/d/
+/a/b/
+/a/b/

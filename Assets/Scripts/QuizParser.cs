@@ -12,7 +12,7 @@ public class QuizParser : MonoBehaviour {
 	private char[] strsplitter = {'/'};
 
 	// Use this for initialization
-	void Awake () {
+	void Start () {
 		ParseQuizScript(quizloc);
 		isDone = true;
 

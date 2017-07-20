@@ -159,6 +159,7 @@
      <Compile Include="Assets\GoogleVR\Scripts\Utilities\GvrMathHelpers.cs" />
      <Compile Include="Assets\GoogleVR\Scripts\Utilities\GvrUIHelpers.cs" />
      <Compile Include="Assets\GoogleVR\Scripts\Video\GvrVideoPlayerTexture.cs" />
+     <Compile Include="Assets\Scripts\ButtonClicker.cs" />
      <Compile Include="Assets\Scripts\ButtonSpawner.cs" />
      <Compile Include="Assets\Scripts\CameraMouseController.cs" />
      <Compile Include="Assets\Scripts\DummyInteractive.cs" />
@@ -172,12 +173,15 @@
      <Compile Include="Assets\Scripts\PlayPauseController.cs" />
      <Compile Include="Assets\Scripts\QuestionMarkController.cs" />
      <Compile Include="Assets\Scripts\QuizParser.cs" />
+     <Compile Include="Assets\Scripts\SceneLoader.cs" />
+     <Compile Include="Assets\Scripts\SceneState.cs" />
      <Compile Include="Assets\Scripts\SlideController.cs" />
      <Compile Include="Assets\Scripts\TestPointerClick.cs" />
      <Compile Include="Assets\Scripts\TutorialPlayer.cs" />
      <Compile Include="Assets\Scripts\VideoController.cs" />
      <Compile Include="Assets\Scripts\VideoEnums.cs" />
      <None Include="Assets\GoogleVR\Distortion\GvrDistortion.cginc" />
+     <None Include="Assets\StreamingAssets\longscript.txt" />
      <None Include="Assets\GoogleVR\Demos\Shaders\VideoDemo\VideoDemoInsideShader.shader" />
      <None Include="Assets\GoogleVR\Shaders\GvrUIOverlayFont.shader" />
      <None Include="Assets\StreamingAssets\script3.txt" />

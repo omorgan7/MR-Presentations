@@ -15,7 +15,7 @@ public class InstructionParser : MonoBehaviour {
 	public string SlideScript = "script.txt";
 	public bool isDone = false;
 	// Use this for initialization
-	void Awake () {
+	void Start () {
 		Parse(SlideScript);
 		isDone = true;
 
@@ -27,7 +27,8 @@ public class InstructionParser : MonoBehaviour {
 		List<long> temptimestamps = new List<long>(); 
 		int i = 0;
 
-		#if UNITY_ANDROID && !UNITY_EDITOR
+		//android needs to decompress files, have to pretend it's a url for the file system
+		#if UNITY_ANDROID && !UNITY_EDITOR 
 
 		string path = "jar:file://" + Application.dataPath + "!/assets/"+slidescriptlocation;
 		WWW file = new WWW(path);
@@ -37,7 +38,7 @@ public class InstructionParser : MonoBehaviour {
 		StringReader reader = new StringReader(contents);
 
 		#else
-
+		
 		StreamReader reader = File.OpenText("Assets/StreamingAssets/"+slidescriptlocation);
 
 		#endif
@@ -61,9 +62,12 @@ public class InstructionParser : MonoBehaviour {
 			i++;
 		}
 		timestamps = new List<float>();
-		timestamps.Add(0f);
-		for(int j=1; j < temptimestamps.Count; j++){
-			temptimestamps[j] -= temptimestamps[0];
+		long timestampoffset = 0;
+		for(int j=0; j < temptimestamps.Count; j++){
+			if(instruction[j] == ParseEnums.Instructions.video){
+				timestampoffset = temptimestamps[j];
+			}
+			temptimestamps[j] -= timestampoffset;
 			timestamps.Add((float)temptimestamps[j] / 1000f);
 		}
 	}

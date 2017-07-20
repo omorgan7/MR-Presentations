@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 4371827483992772}
   - component: {fileID: 54446170065111466}
   - component: {fileID: 65564005026220632}
+  - component: {fileID: 114324671256046512}
   m_Layer: 8
   m_Name: question
   m_TagString: Untagged
@@ -52,7 +53,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1468683912058686}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 8.95, y: 1.49, z: -8.843}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4572491078231768}
@@ -138,3 +139,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.7, z: 0.15}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114324671256046512
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1468683912058686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc519d6db97214c8e97de3cdf912d515, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorialscene: {fileID: 102900000, guid: 98c8f2fd581c8cf4f9d18b257378601e, type: 3}
+  fadecontroller: {fileID: 0}

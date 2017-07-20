@@ -33,6 +33,7 @@ public class VideoController : MonoBehaviour {
 		if(vfile == videoplaying){
 			return;
 		}
+		print("I'm playing");
 		videoplaying = vfile;
 		StopVideo();
 		vp.clip = Resources.Load("Videos/"+vdir.ToString()+"/"+vfile) as VideoClip;
@@ -87,6 +88,8 @@ public class VideoController : MonoBehaviour {
 			yield return null;
 		}
 		int framenumber = (int) (vp.frameRate * seektime);
+		PauseVideo();
 		vp.frame = framenumber;
+		ResumeVideo();
 	}
 }

@@ -17,6 +17,7 @@ public class SlideController : MonoBehaviour {
 	List<List<Vector2> > drawingpaths;
 	List<ParseEnums.Instructions> instruction;
 	List<ParseEnums.SlideType> SlideOrder;
+	InstructionParser IP;
 	List<string> tags;
 	int slideNumber = 1;
 	float startTime;
@@ -27,30 +28,35 @@ public class SlideController : MonoBehaviour {
 	float elapsedTime = 0f;
 	float timeoffset = 0f;
 	bool userhaspaused = false;
+	bool loaded = false;
+	bool invideofork = false;
+	string currenttag;
+	string searchpattern = "([a-f])";
 
 	// Use this for initialization
 	void Start () {
-		InstructionParser IP = transform.parent.parent.gameObject.GetComponent<InstructionParser>();
-		if(IP.isDone == false){
-			Debug.LogError("Something bad happened to the parser. Are you in parser debug mode?");
-			return;
-		}
-		
+		rend = gameObject.GetComponent<Renderer>();
+		mat = rend.material;
+		maintexture = rend.material.mainTexture as Texture2D;
+		quizcontroller = GameObject.Find("Quizzes/"+Slide.ToString());
+		IP = transform.parent.parent.gameObject.GetComponent<InstructionParser>();
+		StartCoroutine(GetInstructions());
+	}
+
+	void AssignVariables(){
 		timestamps = IP.timestamps;
 		drawingpaths = IP.drawingpaths;
 		instruction = IP.instruction;
 		SlideOrder = IP.SlideOrder;
 		videotoplay = IP.videotoplay;
 		tags = IP.tags;
-
-		rend = gameObject.GetComponent<Renderer>();
-		mat = rend.material;
-		maintexture = rend.material.mainTexture as Texture2D;
-		quizcontroller = GameObject.Find("Quizzes/"+Slide.ToString());
 		startTime = Time.time;
 	}
-	
+
 	void Update(){
+		if(loaded == false){
+			return;
+		}
 		if(timestampindex < timestamps.Count-1){
 			elapsedTime = Time.time - startTime + timeoffset;
 			if(hasChanged == true){
@@ -66,6 +72,14 @@ public class SlideController : MonoBehaviour {
 			timeoffset -= Time.deltaTime;
 		}
 	}
+
+	IEnumerator GetInstructions(){
+		while(IP.isDone == false){
+			yield return null;
+		}
+		AssignVariables();
+		loaded = true;
+	}
 	
 	void ParseInstruction(ParseEnums.Instructions inst){
 		switch(inst){
@@ -79,10 +93,27 @@ public class SlideController : MonoBehaviour {
 				break;
 			case ParseEnums.Instructions.stop:
 				vc.StopVideo();
+				startTime = Time.time;
+				timeoffset = 0f;
+				if(invideofork){
+					NextInstruction();
+				}
 				break;
 			case ParseEnums.Instructions.tag:
-				Video(tagIndex);
-				tagIndex++;
+				if(invideofork){
+					//while in a forked tag, search for the next non-forked tag
+					do{
+						currenttag = tags[tagIndex];
+						tagIndex++;
+					}
+					while(System.Text.RegularExpressions.Regex.IsMatch(currenttag,searchpattern));
+					invideofork = false;
+				}
+				else{
+					currenttag = tags[tagIndex];
+					tagIndex++;
+				}
+				Video();
 				NextInstruction();
 				break;
 			default:
@@ -115,7 +146,7 @@ public class SlideController : MonoBehaviour {
 	}
 
 	void ChangeSlide(string slideName){
-		Texture slide = Resources.Load("Slides/"+Slide.ToString()+"/"+slideName) as Texture;
+		Texture slide = Resources.Load("Slides/"+IP.videotoplay.ToString()+"/"+Slide.ToString()+"/"+slideName) as Texture;
 		mat.SetTexture("_MainTex",slide);
 		maintexture = slide as Texture2D;
 		float aspectRatio = (float)slide.width/(float)slide.height;
@@ -144,7 +175,34 @@ public class SlideController : MonoBehaviour {
 	void Quiz(){
 		quizcontroller.SendMessage("CreateButtonGrid");
 	}
-	void Video(int i){
-		vc.PlayVideo(videotoplay,tags[i]);
+	void Video(){
+		vc.PlayVideo(videotoplay,currenttag);
+	}
+	public void RecieveAnswer(string ans){
+		string newtag = currenttag + ans;
+		int i;
+		for(i = tagIndex; i<tags.Count; i++){
+			if(tags[i].Contains(currenttag) && tags[i].Contains(ans)){
+				break;
+			}
+		}
+		currenttag = tags[i];
+		//HACK HERE
+		//assumption that we're calling this command whilst on a stop.
+		int j;
+		int tagcount = 0;
+		for(j=timestampindex; j<instruction.Count; ++j){
+			if(instruction[j] == ParseEnums.Instructions.tag){
+				++tagcount;
+			}
+			if(tagcount == i-tagIndex){
+				break;
+			}
+		}
+		//j now contains the precise instruction to jump to.
+		timestampindex = j;
+		tagIndex = i;
+		ParseInstruction(ParseEnums.Instructions.tag);
+		invideofork = true;
 	}
 }
