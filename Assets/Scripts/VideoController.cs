@@ -9,6 +9,7 @@ public class VideoController : MonoBehaviour {
 
 	public bool userhaspaused = false;
 	public bool isDone = false;
+	public VideoEnums.VideoFiles vdir = VideoEnums.VideoFiles.LongCrossword;
 	private AudioSource audioSource;
 	private GvrAudioSource GVRAS;
 	private Transform t;
@@ -22,14 +23,14 @@ public class VideoController : MonoBehaviour {
 		GVRAS = gameObject.GetComponent<GvrAudioSource>();
 		t = gameObject.GetComponent<Transform>();
 		vp = gameObject.GetComponent<VideoPlayer>();
-		vp.Prepare();
+		vp.skipOnDrop = true; //enable frameskipping if the playback lags, this is way better than out of sync audio.
 	}
 	
 	void Update(){
 		isDone = vp.isPlaying;
 	}
 
-	public void PlayVideo(VideoEnums.VideoFiles vdir,string vfile){
+	public void PlayVideo(string vfile){
 		if(vfile == videoplaying){
 			return;
 		}
@@ -37,6 +38,7 @@ public class VideoController : MonoBehaviour {
 		StopVideo();
 		vp.clip = Resources.Load("Videos/"+vdir.ToString()+"/"+vfile) as VideoClip;
 		VideoClip clip = vp.clip;
+		vp.Prepare();
 		float aspectRatio = (float)clip.width/(float)clip.height;
 		transform.localScale = new Vector3(t.localScale.y * aspectRatio, t.localScale.y,t.localScale.z);
 		vp.EnableAudioTrack(0, true);
