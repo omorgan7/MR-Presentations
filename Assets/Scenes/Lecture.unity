@@ -746,7 +746,8 @@ Prefab:
       propertyPath: vc
       value: 
       objectReference: {fileID: 1719230475}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114220874010023850, guid: 20bb7550f4839454e963967a269c9b2b, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 20bb7550f4839454e963967a269c9b2b, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &558720464 stripped
@@ -996,10 +997,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 414dd2904d8944c95ad1e16009978cf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timestamps: []
-  instruction: 
-  SlideOrder: 
-  tags: []
   videotoplay: 5
   SlideScript: longscript.txt
   isDone: 0
@@ -1200,7 +1197,8 @@ Prefab:
       propertyPath: vc
       value: 
       objectReference: {fileID: 1719230475}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114220874010023850, guid: 20bb7550f4839454e963967a269c9b2b, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 20bb7550f4839454e963967a269c9b2b, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1285079498

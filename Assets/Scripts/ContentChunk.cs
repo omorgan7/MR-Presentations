@@ -4,13 +4,9 @@ using UnityEngine;
 
 public class ContentChunk{
 
-	string tagID{
-		get;
-	}
-	ContentChunk nextChunk{
-		get;
-		set;
-	}
+	public string tagID;
+	public ContentChunk nextChunk;
+
 
 	//data
 	float[] timestamps;
