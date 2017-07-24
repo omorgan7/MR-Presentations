@@ -9,7 +9,7 @@ public class SlideController : MonoBehaviour {
 	public VideoController vc;
 
 	int leftidx = 0;
-	int right idx =0;
+	int rightidx =0;
 
 	InstructionParser IP;
 	Hashtable ContentDatabase;
@@ -18,6 +18,7 @@ public class SlideController : MonoBehaviour {
 
 	Texture2D[] maintextures = new Texture2D[2];
 	Material[] materials = new Material[2];
+	ButtonSpawner[] buttonspawners = new ButtonSpawner[2];
 
 	bool isfinished = false;
 
@@ -29,6 +30,8 @@ public class SlideController : MonoBehaviour {
 		current.Play(vc,this);
 		GetTexture(left,(int)ParseEnums.SlideType.left);
 		GetTexture(right,(int)ParseEnums.SlideType.right);
+		buttonspawners[(int)ParseEnums.SlideType.left] = GameObject.Find("Quizzes/"+ParseEnums.SlideType.left.ToString()).GetComponent<ButtonSpawner>();
+		buttonspawners[(int)ParseEnums.SlideType.right] = GameObject.Find("Quizzes/"+ParseEnums.SlideType.right.ToString()).GetComponent<ButtonSpawner>();;
 	}
 
 	void Update(){
@@ -74,13 +77,28 @@ public class SlideController : MonoBehaviour {
 	}
 
 	public void Quiz(ParseEnums.SlideType type){
-		
+		if(type == ParseEnums.SlideType.none){
+			return;
+		}
+		buttonspawners[(int) type].CreateButtonGrid();
 	}
 	public void Clear(ParseEnums.SlideType type){
-		
+		materials[(int) type].SetTexture("_MainTex",maintexture);
 	}
 	public void Draw(ParseEnums.SlideType type, List<Vector2> drawcoords){
-		
+		Texture2D maintextureclone = Instantiate(materials[(int) type].mainTexture) as Texture2D;
+		for(int i = 0; i< drawcoords.Count; i++){
+
+			Vector2 coords = drawcoords[i];
+			Color[] color = new Color[20*20];
+			for(int j = 0; j<20*20; j++){
+				color[j] = Color.black;
+			}
+			maintextureclone.SetPixels((int)coords.x,(int)coords.y,20,20,color,0); 
+		}
+		maintextureclone.Apply();
+		Texture newTexture = maintextureclone as Texture;
+		materials[(int) type].SetTexture("_MainTex",newTexture);
 	}
 	public void RecieveAnswer(string ans){
 
