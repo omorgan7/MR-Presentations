@@ -92,7 +92,6 @@ public class InstructionParser : MonoBehaviour {
 
 		int index = -1;
 		int startindex = 0;
-		int endindex = 0;
 		int drawstartindex = -1;
 		int drawendindex = -1;
 		float videooffset = 0f;
@@ -147,8 +146,6 @@ public class InstructionParser : MonoBehaviour {
 			drawingpaths.CopyTo(drawstartindex,tempdrawings,0,drawarrlength);
 
 			ContentChunk content = new ContentChunk(times,tempinsts,tempslides,tempdrawings,videooffset,tags[tagindex]);
-			print(ContentDatabase);
-			print(content);
 			if(content.tagID.Length == 1){
 				ContentDatabase.Add(tags[tagindex],content);
 			}

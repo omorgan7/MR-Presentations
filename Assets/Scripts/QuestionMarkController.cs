@@ -12,12 +12,17 @@ public class QuestionMarkController : MonoBehaviour, IInteractive {
 
 	void Start(){
 		var temp = GameObject.Find("SceneStatePreserver");
-		scenestate = temp.GetComponent<SceneState>();
+		if(temp != null){
+			scenestate = temp.GetComponent<SceneState>();
+		}
 	}
 
 	public void GVRClick(){
-		fadecontroller.FadeOut();
-		StartCoroutine(Fade());
+		if(scenestate != null){
+			fadecontroller.FadeOut();
+			StartCoroutine(Fade());
+		}
+
 	}
 	IEnumerator Fade(){
 		while(fadecontroller.isDone == false){

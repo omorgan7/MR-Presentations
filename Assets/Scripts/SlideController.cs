@@ -25,19 +25,28 @@ public class SlideController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		IP = gameObject.GetComponent<InstructionParser>();
-		ContentDatabase = IP.ContentDatabase;
-		current = ContentDatabase["1"] as ContentChunk;
-		current.Play(vc,this);
+		StartCoroutine(DelayedStart());
 		GetTexture(left,(int)ParseEnums.SlideType.left);
 		GetTexture(right,(int)ParseEnums.SlideType.right);
 		buttonspawners[(int)ParseEnums.SlideType.left] = GameObject.Find("Quizzes/"+ParseEnums.SlideType.left.ToString()).GetComponent<ButtonSpawner>();
 		buttonspawners[(int)ParseEnums.SlideType.right] = GameObject.Find("Quizzes/"+ParseEnums.SlideType.right.ToString()).GetComponent<ButtonSpawner>();;
 	}
 
+	IEnumerator DelayedStart(){
+		while(IP.isDone == false){
+			yield return null;
+		}
+		ContentDatabase = IP.ContentDatabase;
+		current = ContentDatabase[currenttag] as ContentChunk;
+		current.Play(vc,this);
+	}
+
 	void Update(){
-		
+		if(IP.isDone == false){
+			return;
+		}
 		if(isfinished == false){
-			isfinished = current.Update();
+			isfinished = current.UpdateState();
 		}
 		else{
 			//recieve quiz input

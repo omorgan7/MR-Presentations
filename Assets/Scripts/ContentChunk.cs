@@ -34,39 +34,46 @@ public class ContentChunk{
 
 	public ContentChunk
 		(
-		float[] timestamps, 
-		ParseEnums.Instructions[] instructions, 
-		ParseEnums.SlideType[] slides,
-		List<Vector2>[] drawpaths, 
-		float videooffset,
-		string tagID
+		float[] _timestamps, 
+		ParseEnums.Instructions[] _instructions, 
+		ParseEnums.SlideType[] _slides,
+		List<Vector2>[] _drawpaths, 
+		float _videooffset,
+		string _tagID
 		)
 	{
-		this.timestamps = timestamps;
-		this.instructions = instructions;
-		this.videooffset = videooffset;
-		this.tagID = tagID;
-		this.drawpaths = drawpaths;
+		timestamps = _timestamps;
+		instructions = _instructions;
+		videooffset = _videooffset;
+		tagID = _tagID;
+		drawpaths = _drawpaths;
 		nextChunk = null;
+		slides = _slides;
 	}
 
-	public void Play(VideoController vc, SlideController sc){
+	public void Play(VideoController vc, SlideController _sc){
 		starttime= Time.time;
+		sc = _sc;
+		vc.StartCoroutine(DelayedPlay(vc));
 		playing = true;
+	}
+
+	IEnumerator DelayedPlay(VideoController vc){
+		while(vc.hasStarted == false){
+			yield return null;
+		}
 		vc.PlayVideo(tagID);
 		vc.SeekVideo(videooffset);
-		this.sc = sc;
 	}
 
 	public void SetNextVideo(ContentChunk next){
 		nextChunk = next;
-
 	}
 
 	//called every frame by the controller
 	//return true if finished playing.
 
-	public bool Update(){
+	public bool UpdateState(){
 		if(idx < timestamps.Length-1 && playing){
 			float elapsedtime = Time.time - starttime;
 			if(changed == true){
@@ -86,16 +93,16 @@ public class ContentChunk{
 		switch(inst){
 			case ParseEnums.Instructions.slide:
 				sc.ChangeSlide(slides[idx]);
-			break;
+				break;
 			case ParseEnums.Instructions.draw:
-					sc.Draw(slides[idx],drawpaths[drawidx]);
-					++drawidx;
+				sc.Draw(slides[idx],drawpaths[drawidx]);
+				++drawidx;
 				break;
 			case ParseEnums.Instructions.clear:
-					sc.Clear(slides[idx]);
+				sc.Clear(slides[idx]);
 				break;
 			case ParseEnums.Instructions.quiz:
-					sc.Quiz(slides[idx]);
+				sc.Quiz(slides[idx]);
 				break;
 			default:
 				break;
