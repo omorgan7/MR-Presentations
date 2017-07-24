@@ -5,7 +5,6 @@ using System.IO;
 
 public class InstructionParser : MonoBehaviour {
 
-	public VideoEnums.VideoFiles videotoplay = VideoEnums.VideoFiles.Tutorial;
 	public Hashtable ContentDatabase;
 
 	public string SlideScript = "script.txt";
@@ -94,11 +93,11 @@ public class InstructionParser : MonoBehaviour {
 		int index = -1;
 		int startindex = 0;
 		int endindex = 0;
-		int drawstartindex = 0;
-		int drawendindex = 0;
+		int drawstartindex = -1;
+		int drawendindex = -1;
 		float videooffset = 0f;
 		int tagindex = -1;
-
+		ContentDatabase = new Hashtable();
 		//number of tags is the number of pieces of content we have.
 		for(int j=0; j<tags.Count; j++){
 			bool drawonce = false;
@@ -121,8 +120,8 @@ public class InstructionParser : MonoBehaviour {
 				}
 				if(instruction[index] == ParseEnums.Instructions.draw){
 					if(drawonce == false){
-						drawstartindex = index;
-						drawendindex = drawstartindex;
+						++drawstartindex;
+						drawendindex = drawstartindex+1;
 						drawonce = true;
 					}
 					else{
@@ -132,8 +131,10 @@ public class InstructionParser : MonoBehaviour {
 
 			} while (instruction[index] != ParseEnums.Instructions.stop);
 			int arrlength = index - startindex;
-			int drawarrlength = drawendindex - drawstartindex +1;
-
+			int drawarrlength = drawendindex - drawstartindex;
+			if(drawstartindex == -1){
+				drawstartindex = 0;
+			}
 			//create temporary arrays to feed into the ContentChunk
 			float[] times = new float[arrlength];
 			ParseEnums.Instructions[] tempinsts = new ParseEnums.Instructions[arrlength];
@@ -146,6 +147,8 @@ public class InstructionParser : MonoBehaviour {
 			drawingpaths.CopyTo(drawstartindex,tempdrawings,0,drawarrlength);
 
 			ContentChunk content = new ContentChunk(times,tempinsts,tempslides,tempdrawings,videooffset,tags[tagindex]);
+			print(ContentDatabase);
+			print(content);
 			if(content.tagID.Length == 1){
 				ContentDatabase.Add(tags[tagindex],content);
 			}
