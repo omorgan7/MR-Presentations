@@ -26,7 +26,7 @@ public class VideoController : MonoBehaviour {
 		vp = gameObject.GetComponent<VideoPlayer>();
 		t = gameObject.GetComponent<Transform>();
 		vp.audioOutputMode = VideoAudioOutputMode.AudioSource;
-		//vp.skipOnDrop = true; //enable frameskipping if the playback lags, this is way better than out of sync audio.
+		vp.skipOnDrop = true; //enable frameskipping if the playback lags, this is way better than out of sync audio.
 		hasStarted = true;
 	}
 	
@@ -42,12 +42,11 @@ public class VideoController : MonoBehaviour {
 		StopVideo();
 		vp.clip = Resources.Load("Videos/"+vdir.ToString()+"/"+vfile) as VideoClip;
 		VideoClip clip = vp.clip;
-		vp.Prepare();
 		float aspectRatio = (float)clip.width/(float)clip.height;
 		transform.localScale = new Vector3(t.localScale.y * aspectRatio, t.localScale.y,t.localScale.z);
 		vp.EnableAudioTrack(0, true);
-		print(audioSource);
     	vp.SetTargetAudioSource(0, audioSource);
+		vp.Prepare();
 		vp.isLooping = false;
 		//GVRAS.clip = audioSource.clip;
 		ResumeVideo();
