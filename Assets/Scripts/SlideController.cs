@@ -53,14 +53,15 @@ public class SlideController : MonoBehaviour {
 
 	public void ChangeSlide(ParseEnums.SlideType type){
 		//type is confined to 0,1 or undefined, and we check for those cases here.
+		Texture slide;
 		switch(type){
 			case(ParseEnums.SlideType.right):
-				Texture slide = Resources.Load("Slides/"+IP.videotoplay.ToString()+"/"+Slide.ToString()+"/"+rightidx.ToString()) as Texture;
+				slide = Resources.Load("Slides/"+vc.vdir.ToString()+"/"+type.ToString()+"/"+rightidx.ToString()) as Texture;
 				_ChangeSlide(slide,materials[(int) type],maintextures[(int) type],right);
 				++rightidx;
 				break;
 			case(ParseEnums.SlideType.left):
-				Texture slide = Resources.Load("Slides/"+IP.videotoplay.ToString()+"/"+Slide.ToString()+"/"+leftidx.ToString()) as Texture;
+				slide = Resources.Load("Slides/"+vc.vdir.ToString()+"/"+type.ToString()+"/"+leftidx.ToString()) as Texture;
 				_ChangeSlide(slide,materials[(int) type],maintextures[(int) type],left);
 				++leftidx;
 				break;
@@ -83,7 +84,7 @@ public class SlideController : MonoBehaviour {
 		buttonspawners[(int) type].CreateButtonGrid();
 	}
 	public void Clear(ParseEnums.SlideType type){
-		materials[(int) type].SetTexture("_MainTex",maintexture);
+		materials[(int) type].SetTexture("_MainTex",maintextures[(int)type]);
 	}
 	public void Draw(ParseEnums.SlideType type, List<Vector2> drawcoords){
 		Texture2D maintextureclone = Instantiate(materials[(int) type].mainTexture) as Texture2D;
