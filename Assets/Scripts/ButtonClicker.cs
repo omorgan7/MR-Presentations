@@ -8,7 +8,7 @@ public class ButtonClicker : MonoBehaviour {
 	string response;
 	void Start(){
 		string name = transform.parent.name;
-		slidecontroller = GameObject.Find("Screens/Slides/"+name+"/Quad").GetComponent<SlideController>();
+		slidecontroller = GameObject.Find("Screens/Slides").GetComponent<SlideController>();
 		response = gameObject.GetComponentInChildren<Text>().text;
 		Button btn = gameObject.GetComponent<Button>();
 		btn.onClick.AddListener(TaskOnClick);

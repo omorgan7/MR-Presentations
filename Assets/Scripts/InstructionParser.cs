@@ -105,7 +105,8 @@ public class InstructionParser : MonoBehaviour {
 				if(instruction[index] == ParseEnums.Instructions.start){
 					videooffset = timestamps[index];
 				}
-				bool addcondition = instruction[index] == ParseEnums.Instructions.start || instruction[index] == ParseEnums.Instructions.video || instruction[index] == ParseEnums.Instructions.tag;
+
+				bool addcondition = (instruction[index] == ParseEnums.Instructions.start) || (instruction[index] == ParseEnums.Instructions.video) || (instruction[index] == ParseEnums.Instructions.tag);
 				
 				//this could break horribly if there's a random start/tag/video tag in the middle of the set of instructions.
 				//there shouldn't be: a todo would be to verify it i suppose.
@@ -129,10 +130,11 @@ public class InstructionParser : MonoBehaviour {
 				}	
 
 			} while (instruction[index] != ParseEnums.Instructions.stop);
-			int arrlength = index - startindex;
-			int drawarrlength = drawendindex - drawstartindex;
+			int arrlength = Mathf.Max(index - startindex + 1,0);
+			int drawarrlength = Mathf.Max(drawendindex - drawstartindex,0);
 			if(drawstartindex == -1){
 				drawstartindex = 0;
+				drawarrlength = 0;
 			}
 			//create temporary arrays to feed into the ContentChunk
 			float[] times = new float[arrlength];
@@ -148,12 +150,23 @@ public class InstructionParser : MonoBehaviour {
 			ContentChunk content = new ContentChunk(times,tempinsts,tempslides,tempdrawings,videooffset,tags[tagindex]);
 			if(content.tagID.Length == 1){
 				ContentDatabase.Add(tags[tagindex],content);
+				//print(tags[tagindex]);
 			}
 			else{
 				for(int k = 1;k<content.tagID.Length; k++){
 					string key = content.tagID[0].ToString() + content.tagID[k].ToString();
 					ContentDatabase.Add(key,content);
+					//print(key);
 				}
+			}
+		}
+		foreach(DictionaryEntry d in ContentDatabase){
+			ContentChunk c = d.Value as ContentChunk;
+			if(c.tagID.Length > 1){ //is an answer
+				string temptag = c.tagID;
+				//take it, convert it to a number, add one, turn it back into a tag. gives us the key for the next chunk.
+				string nexttag = (int.Parse(temptag[0].ToString()) + 1).ToString();
+				c.SetNextVideo(ContentDatabase[nexttag] as ContentChunk);
 			}
 		}
 	}

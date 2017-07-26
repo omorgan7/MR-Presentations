@@ -26,31 +26,43 @@ public class VideoController : MonoBehaviour {
 		vp = gameObject.GetComponent<VideoPlayer>();
 		t = gameObject.GetComponent<Transform>();
 		vp.audioOutputMode = VideoAudioOutputMode.AudioSource;
-		vp.skipOnDrop = true; //enable frameskipping if the playback lags, this is way better than out of sync audio.
+		//vp.skipOnDrop = true; //enable frameskipping if the playback lags, this is way better than out of sync audio.
 		hasStarted = true;
 	}
 	
 	void Update(){
 		isDone = vp.isPlaying;
+		//print(isDone);
 	}
 
 	public void PlayVideo(string vfile){
 		if(vfile == videoplaying){
 			return;
 		}
+		print(vfile);
 		videoplaying = vfile;
 		StopVideo();
+		print(vp.isPlaying);
 		vp.clip = Resources.Load("Videos/"+vdir.ToString()+"/"+vfile) as VideoClip;
 		VideoClip clip = vp.clip;
 		float aspectRatio = (float)clip.width/(float)clip.height;
 		transform.localScale = new Vector3(t.localScale.y * aspectRatio, t.localScale.y,t.localScale.z);
 		vp.EnableAudioTrack(0, true);
     	vp.SetTargetAudioSource(0, audioSource);
-		vp.Prepare();
 		vp.isLooping = false;
-		//GVRAS.clip = audioSource.clip;
+		GVRAS.clip = audioSource.clip;
+		vp.targetTexture.DiscardContents();
+		vp.Prepare();
+		StartCoroutine(PrepareAndPlay());
+	}
+
+	IEnumerator PrepareAndPlay(){
+		while(vp.isPrepared){
+			yield return null;
+		}
 		ResumeVideo();
 	}
+
 	public void StopVideo(){
 		vp.Stop();
 		if(audioSource !=null){
@@ -73,6 +85,7 @@ public class VideoController : MonoBehaviour {
 	}
 	public void ResumeVideo(){
 		vp.Play();
+		print("play");
 		if(audioSource!=null){
 			audioSource.Play();
 		}
@@ -84,8 +97,7 @@ public class VideoController : MonoBehaviour {
 	public void SeekVideo(float seektime){
 		//this is needed because if the video hasn't loaded yet
 		//then the framerate is zero and it won't seek.
-		IEnumerator Videoseeker = _SeekVideo(seektime);
-		StartCoroutine(Videoseeker);
+		StartCoroutine(_SeekVideo(seektime));
 	}
 
 	IEnumerator _SeekVideo(float seektime){

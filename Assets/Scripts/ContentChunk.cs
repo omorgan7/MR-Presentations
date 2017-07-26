@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ContentChunk{
@@ -14,17 +15,14 @@ public class ContentChunk{
 	ParseEnums.SlideType[] slides;
 	List<Vector2>[] drawpaths;
 
-	int idx =0;
+	int idx =-1;
 	int drawidx = 0;
 	float starttime= 0f;
 	float videooffset;
+	float elapsedtime = 0f;
 
 	//states
-	bool changed = true;
-	bool playing = false;
-	bool infork{
-		get;
-	} = true;
+	bool changed = false;
 
 	SlideController sc;
 
@@ -42,9 +40,12 @@ public class ContentChunk{
 		string _tagID
 		)
 	{
-		timestamps = _timestamps;
-		instructions = _instructions;
 		videooffset = _videooffset;
+		timestamps = _timestamps;
+		for(int i = 0; i<timestamps.Length; i++){
+			timestamps[i] -= videooffset;
+		}
+		instructions = _instructions;
 		tagID = _tagID;
 		drawpaths = _drawpaths;
 		nextChunk = null;
@@ -52,18 +53,24 @@ public class ContentChunk{
 	}
 
 	public void Play(VideoController vc, SlideController _sc){
-		starttime= Time.time;
 		sc = _sc;
 		vc.StartCoroutine(DelayedPlay(vc));
-		playing = true;
+		IEnumerable temp = instructions.Zip(timestamps,(first,second) => first + " " + second);
+		foreach(var i in temp){
+			Debug.Log(i);
+		}
+		Debug.Log(tagID);
 	}
 
 	IEnumerator DelayedPlay(VideoController vc){
+		Debug.Log(vc.hasStarted);
 		while(vc.hasStarted == false){
 			yield return null;
 		}
 		vc.PlayVideo(tagID);
 		vc.SeekVideo(videooffset);
+		Debug.Log(videooffset);
+		starttime= Time.time;
 	}
 
 	public void SetNextVideo(ContentChunk next){
@@ -73,17 +80,18 @@ public class ContentChunk{
 	//called every frame by the controller
 	//return true if finished playing.
 
-	public bool UpdateState(){
-		if(idx < timestamps.Length-1 && playing){
-			float elapsedtime = Time.time - starttime;
+	public bool UpdateState(float time){
+		if(idx < timestamps.Length){
+			elapsedtime += time;
+			if(elapsedtime >= timestamps[idx+1]){
+				changed = true;
+			}
 			if(changed == true){
+				++idx;
 				ParseInstruction(instructions[idx]);
 				changed = false;
 			}
-			if(elapsedtime >= timestamps[idx+1]){
-				changed = true;
-				idx++;
-			}
+
 			return false;
 		}
 		return true;
@@ -103,6 +111,9 @@ public class ContentChunk{
 				break;
 			case ParseEnums.Instructions.quiz:
 				sc.Quiz(slides[idx]);
+				break;
+			case ParseEnums.Instructions.stop:
+				sc.Stop();
 				break;
 			default:
 				break;

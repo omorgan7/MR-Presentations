@@ -9,7 +9,7 @@ public class SlideController : MonoBehaviour {
 	public VideoController vc;
 
 	int leftidx = 0;
-	int rightidx =0;
+	int rightidx = 0;
 
 	InstructionParser IP;
 	Hashtable ContentDatabase;
@@ -21,13 +21,12 @@ public class SlideController : MonoBehaviour {
 	ButtonSpawner[] buttonspawners = new ButtonSpawner[2];
 
 	bool isfinished = false;
+	bool hasAnswer = false;
 
 	// Use this for initialization
 	void Start () {
 		IP = gameObject.GetComponent<InstructionParser>();
 		StartCoroutine(DelayedStart());
-		GetTexture(left,(int)ParseEnums.SlideType.left);
-		GetTexture(right,(int)ParseEnums.SlideType.right);
 		buttonspawners[(int)ParseEnums.SlideType.left] = GameObject.Find("Quizzes/"+ParseEnums.SlideType.left.ToString()).GetComponent<ButtonSpawner>();
 		buttonspawners[(int)ParseEnums.SlideType.right] = GameObject.Find("Quizzes/"+ParseEnums.SlideType.right.ToString()).GetComponent<ButtonSpawner>();;
 	}
@@ -39,18 +38,37 @@ public class SlideController : MonoBehaviour {
 		ContentDatabase = IP.ContentDatabase;
 		current = ContentDatabase[currenttag] as ContentChunk;
 		current.Play(vc,this);
+		GetTexture(left,(int)ParseEnums.SlideType.left);
+		GetTexture(right,(int)ParseEnums.SlideType.right);
+		ChangeSlide(ParseEnums.SlideType.left);
+		ChangeSlide(ParseEnums.SlideType.right);
 	}
 
 	void Update(){
+		if(Input.GetKeyDown("b")){
+			Time.timeScale = 16f;
+		}
+		if(Input.GetKeyUp("b")){
+			Time.timeScale = 1f;
+		}
+
 		if(IP.isDone == false){
 			return;
 		}
-		if(isfinished == false){
-			isfinished = current.UpdateState();
+
+		if(isfinished == false && vc.isDone){
+			isfinished = current.UpdateState(Time.deltaTime);
+			hasAnswer = false;
+			return;
 		}
-		else{
-			//recieve quiz input
-			//etc.
+		else{ // play next chunk otherwise or do nothing.
+			if(current !=null && current.nextChunk != null && hasAnswer == false){
+				print("here");
+				current = current.nextChunk;
+				currenttag = current.tagID;
+				current.Play(vc,this);
+				isfinished = false;
+			}
 		}
 	}
 
@@ -65,14 +83,14 @@ public class SlideController : MonoBehaviour {
 		Texture slide;
 		switch(type){
 			case(ParseEnums.SlideType.right):
+				++rightidx;
 				slide = Resources.Load("Slides/"+vc.vdir.ToString()+"/"+type.ToString()+"/"+rightidx.ToString()) as Texture;
 				_ChangeSlide(slide,materials[(int) type],maintextures[(int) type],right);
-				++rightidx;
 				break;
 			case(ParseEnums.SlideType.left):
+				++leftidx;
 				slide = Resources.Load("Slides/"+vc.vdir.ToString()+"/"+type.ToString()+"/"+leftidx.ToString()) as Texture;
 				_ChangeSlide(slide,materials[(int) type],maintextures[(int) type],left);
-				++leftidx;
 				break;
 			default:
 				return;
@@ -110,7 +128,16 @@ public class SlideController : MonoBehaviour {
 		Texture newTexture = maintextureclone as Texture;
 		materials[(int) type].SetTexture("_MainTex",newTexture);
 	}
-	public void RecieveAnswer(string ans){
 
+	public void Stop(){
+		vc.StopVideo();
+	}
+	
+	public void RecieveAnswer(string ans){
+		hasAnswer = true;
+		currenttag = currenttag + ans;
+		current = ContentDatabase[currenttag] as ContentChunk;
+		isfinished = false;
+		current.Play(vc,this);
 	}
 }
