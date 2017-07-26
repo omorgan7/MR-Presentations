@@ -63,7 +63,6 @@ public class ContentChunk{
 	}
 
 	IEnumerator DelayedPlay(VideoController vc){
-		Debug.Log(vc.hasStarted);
 		while(vc.hasStarted == false){
 			yield return null;
 		}
@@ -81,7 +80,7 @@ public class ContentChunk{
 	//return true if finished playing.
 
 	public bool UpdateState(float time){
-		if(idx < timestamps.Length){
+		if(idx+1 < timestamps.Length){
 			elapsedtime += time;
 			if(elapsedtime >= timestamps[idx+1]){
 				changed = true;

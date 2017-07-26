@@ -55,20 +55,26 @@ public class SlideController : MonoBehaviour {
 		if(IP.isDone == false){
 			return;
 		}
-
-		if(isfinished == false && vc.isDone){
-			isfinished = current.UpdateState(Time.deltaTime);
+		if(hasAnswer){
+			isfinished = false;
+			print(currenttag);
+			current = ContentDatabase[currenttag] as ContentChunk;
+			current.Play(vc,this);
 			hasAnswer = false;
 			return;
 		}
-		else{ // play next chunk otherwise or do nothing.
-			if(current !=null && current.nextChunk != null && hasAnswer == false){
-				print("here");
-				current = current.nextChunk;
-				currenttag = current.tagID;
-				current.Play(vc,this);
-				isfinished = false;
-			}
+		if(vc.isDone == false){
+			return;
+		}
+		if(isfinished == false){
+			isfinished = current.UpdateState(Time.deltaTime);
+			return;
+		}
+		if(current !=null && current.nextChunk != null && hasAnswer == false){
+			current = current.nextChunk;
+			currenttag = current.tagID;
+			current.Play(vc,this);
+			isfinished = false;
 		}
 	}
 
@@ -136,8 +142,6 @@ public class SlideController : MonoBehaviour {
 	public void RecieveAnswer(string ans){
 		hasAnswer = true;
 		currenttag = currenttag + ans;
-		current = ContentDatabase[currenttag] as ContentChunk;
-		isfinished = false;
-		current.Play(vc,this);
+		//isfinished = true;
 	}
 }

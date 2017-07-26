@@ -30,19 +30,17 @@ public class VideoController : MonoBehaviour {
 		hasStarted = true;
 	}
 	
-	void Update(){
-		isDone = vp.isPlaying;
-		//print(isDone);
-	}
+	// void Update(){
+	// 	isDone = vp.isPlaying;
+	// }
 
 	public void PlayVideo(string vfile){
 		if(vfile == videoplaying){
 			return;
 		}
-		print(vfile);
 		videoplaying = vfile;
 		StopVideo();
-		print(vp.isPlaying);
+		isDone = false;
 		vp.clip = Resources.Load("Videos/"+vdir.ToString()+"/"+vfile) as VideoClip;
 		VideoClip clip = vp.clip;
 		float aspectRatio = (float)clip.width/(float)clip.height;
@@ -85,7 +83,6 @@ public class VideoController : MonoBehaviour {
 	}
 	public void ResumeVideo(){
 		vp.Play();
-		print("play");
 		if(audioSource!=null){
 			audioSource.Play();
 		}
@@ -93,6 +90,7 @@ public class VideoController : MonoBehaviour {
 			GVRAS.Play();
 		}
 		userhaspaused = false;
+		isDone = true;
 	}
 	public void SeekVideo(float seektime){
 		//this is needed because if the video hasn't loaded yet
