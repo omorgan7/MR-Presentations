@@ -11,22 +11,28 @@ public class GvrInput : MonoBehaviour {
 	Rigidbody heldrb;
 	RaycastHit hit;
 	float length = 0f;
+	GvrLaserPointer laserpointer;
 
 	const int layerMask = (1 << 8) | (1<<9); 
 	//This is a bit shift to select for layer 8 or 9.
 	//Interactive on 8, floor on 9.
 	public GameObject player;
 	public FadeController fadecontroller;
+	public float startingreticledistance = 4f;
 	public float shortduration = 0.5f;
 	const float rayLength = 100f;
 
+	void Start(){
+		laserpointer = gameObject.GetComponent<GvrLaserPointer>();
+	}
+	
 	void FixedUpdate(){
 
 		GvrLaserPointerImpl laserpointerimpl = (GvrLaserPointerImpl)GvrPointerManager.Pointer;
 		Ray ray = new Ray(transform.position, transform.forward);
-
 		if (Physics.Raycast(ray, out hit, rayLength,layerMask)) {
 			GameObject objectDetected = hit.collider.gameObject;
+			laserpointer.maxReticleDistance = (ray.origin-objectDetected.transform.position).magnitude;
 			if (GvrController.ClickButtonUp) {
 				if(objectDetected.layer == 9){
 					fadecontroller.FadeOut(shortduration);
@@ -51,6 +57,9 @@ public class GvrInput : MonoBehaviour {
 		}
 		else if(GvrController.AppButtonUp){
 			Drop();
+		}
+		else{
+			laserpointer.maxReticleDistance = startingreticledistance;
 		}
 		if(heldobject !=null){
 			heldrb.MovePosition(length*transform.forward + transform.position);

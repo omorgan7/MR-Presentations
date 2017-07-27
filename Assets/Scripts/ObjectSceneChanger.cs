@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class QuestionMarkController : MonoBehaviour, IInteractive {
+public class ObjectSceneChanger : MonoBehaviour, IInteractive {
 	
-	
-	public int SceneIndex = 2; //hope that the tutorial is at one.
+	public enum Scenes {Loading=0,Tutorial=1,Lecture=2};
+	public Scenes SceneToLoad = Scenes.Lecture; //hope that the tutorial is at one.
 	public FadeController fadecontroller;
 	private SceneState scenestate;
 
@@ -18,17 +18,21 @@ public class QuestionMarkController : MonoBehaviour, IInteractive {
 	}
 
 	public void GVRClick(){
+		print("click");
 		if(scenestate != null){
-			fadecontroller.FadeOut();
 			StartCoroutine(Fade());
 		}
 
 	}
 	IEnumerator Fade(){
-		while(fadecontroller.isDone == false){
-			yield return null;
+		if(scenestate.SceneIndex != (int) SceneToLoad){
+			fadecontroller.FadeOut();
+			while(fadecontroller.isDone == false){
+				yield return null;
+			}
+			scenestate.SceneIndex = (int) SceneToLoad;
+			SceneManager.LoadScene(0);
 		}
-		scenestate.SceneIndex = SceneIndex;
-		SceneManager.LoadScene(0);
+		
 	}
 }

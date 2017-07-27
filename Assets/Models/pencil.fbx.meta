@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 48e43dde35dfa494bb83710c9b6daade
-timeCreated: 1498658060
+guid: b8a6f425ddc244a2c805a82a8ef01f0f
+timeCreated: 1501085379
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
@@ -13,11 +13,13 @@ ModelImporter:
     400002: Cylinder
     400004: Lamp
     400006: //RootNode
+    2000000: Camera
     2300000: Cylinder
     3300000: Cylinder
     4300000: Cylinder
+    10800000: Lamp
   materials:
-    importMaterials: 0
+    importMaterials: 1
     materialName: 0
     materialSearch: 1
   animations:
@@ -43,19 +45,19 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 0.1
     meshCompression: 0
     addColliders: 0
-    importVisibility: 0
+    importVisibility: 1
     importBlendShapes: 1
-    importCameras: 0
-    importLights: 0
+    importCameras: 1
+    importLights: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 0
+    optimizeMeshForGPU: 1
     keepQuads: 0
-    weldVertices: 0
+    weldVertices: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -65,7 +67,7 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
-    normalCalculationMode: 0
+    normalCalculationMode: 4
   importAnimation: 1
   copyAvatar: 0
   humanDescription:

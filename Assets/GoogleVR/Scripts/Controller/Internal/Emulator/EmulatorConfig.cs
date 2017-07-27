@@ -54,7 +54,7 @@ namespace Gvr.Internal {
 
     // IP address of the phone, when connected to the PC via WiFi.
     //public static readonly string WIFI_SERVER_IP = "192.168.43.1";
-    public static string WIFI_SERVER_IP = "192.168.1.235";
+    public static string WIFI_SERVER_IP = "138.38.168.181";
   }
 }
 /// @endcond

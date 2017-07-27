@@ -168,11 +168,11 @@
      <Compile Include="Assets\Scripts\GvrInput.cs" />
      <Compile Include="Assets\Scripts\GVRInteractiveInterface.cs" />
      <Compile Include="Assets\Scripts\InstructionParser.cs" />
+     <Compile Include="Assets\Scripts\ObjectSceneChanger.cs" />
      <Compile Include="Assets\Scripts\ParseEnums.cs" />
      <Compile Include="Assets\Scripts\PauseButton.cs" />
      <Compile Include="Assets\Scripts\PlayButton.cs" />
      <Compile Include="Assets\Scripts\PlayPauseController.cs" />
-     <Compile Include="Assets\Scripts\QuestionMarkController.cs" />
      <Compile Include="Assets\Scripts\QuizParser.cs" />
      <Compile Include="Assets\Scripts\SceneLoader.cs" />
      <Compile Include="Assets\Scripts\SceneState.cs" />

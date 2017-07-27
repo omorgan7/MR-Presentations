@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.Video;
 
 public class PauseButton : MonoBehaviour,IInteractive {
-	public GameObject vp;
+	public VideoController vp;
 	public void GVRClick(){
-		vp.GetComponent<VideoController>().PauseVideo();
+		vp.PauseVideo();
 	}
 }
