@@ -42,7 +42,7 @@ public class ButtonSpawner : MonoBehaviour {
 		RectTransform rt = ButtonClones[buttoncount].GetComponent<RectTransform>();
 		rt.anchorMin = new Vector2(x,y);
 		rt.anchorMax = new Vector2(x,y);
-		ButtonClones[buttoncount].GetComponentInChildren<Text>().text = quizanswers[quizIndex][buttoncount];
+		ButtonClones[buttoncount].GetComponentInChildren<Text>().text = quizanswers[quizIndex][buttoncount].ToUpper();
 		buttoncount++;
 	}
 	public void DestroyButtons(){

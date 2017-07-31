@@ -57,7 +57,6 @@ public class SlideController : MonoBehaviour {
 		}
 		if(hasAnswer){
 			isfinished = false;
-			print(currenttag);
 			current = ContentDatabase[currenttag] as ContentChunk;
 			current.Play(vc,this);
 			hasAnswer = false;
@@ -66,7 +65,7 @@ public class SlideController : MonoBehaviour {
 		if(vc.isDone == false){
 			return;
 		}
-		if(isfinished == false){
+		if(isfinished == false && vc.userhaspaused == false){
 			isfinished = current.UpdateState(Time.deltaTime);
 			return;
 		}

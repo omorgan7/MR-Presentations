@@ -150,13 +150,11 @@ public class InstructionParser : MonoBehaviour {
 			ContentChunk content = new ContentChunk(times,tempinsts,tempslides,tempdrawings,videooffset,tags[tagindex]);
 			if(content.tagID.Length == 1){
 				ContentDatabase.Add(tags[tagindex],content);
-				//print(tags[tagindex]);
 			}
 			else{
 				for(int k = 1;k<content.tagID.Length; k++){
 					string key = content.tagID[0].ToString() + content.tagID[k].ToString();
 					ContentDatabase.Add(key,content);
-					//print(key);
 				}
 			}
 		}

@@ -12,6 +12,8 @@ public class GvrInput : MonoBehaviour {
 	RaycastHit hit;
 	float length = 0f;
 	GvrLaserPointer laserpointer;
+	Vector3 prevPos = Vector3.zero;
+	Vector3 currentPos = Vector3.zero;
 
 	const int layerMask = (1 << 8) | (1<<9); 
 	//This is a bit shift to select for layer 8 or 9.
@@ -48,24 +50,27 @@ public class GvrInput : MonoBehaviour {
 					heldrb.useGravity = false;
 					length = (ray.origin-heldobject.transform.position).magnitude;
 				}
-				else{
-					heldrb.useGravity = true;
+				else if(heldobject != null){
 					Drop();
 				}
 			}
 			goal = hit.point;
 		}
-		else if(GvrController.AppButtonUp){
+		else if(GvrController.AppButtonUp && heldobject !=null){
 			Drop();
 		}
 		else{
 			laserpointer.maxReticleDistance = startingreticledistance;
 		}
 		if(heldobject !=null){
+			prevPos = currentPos;
 			heldrb.MovePosition(length*transform.forward + transform.position);
+			currentPos = heldrb.position;
 		}
 	}
 	void Drop(){
+		heldrb.useGravity = true;
+		heldrb.velocity = (currentPos-prevPos)/Time.deltaTime;
 		heldobject = null;
 		heldrb = null;
 	}
