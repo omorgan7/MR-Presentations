@@ -36,23 +36,23 @@ VideoClipImporter:
       spatialQuality: 2
     7:
       enableTranscoding: 1
-      codec: 0
+      codec: 1
       resizeFormat: 2
       aspectRatio: 0
       customWidth: 1920
       customHeight: 1080
-      bitrateMode: 2
+      bitrateMode: 1
       spatialQuality: 2
   output:
     format: 0
     settings:
       enableTranscoding: 1
-      codec: 0
+      codec: 1
       resizeFormat: 2
       aspectRatio: 0
       customWidth: 1920
       customHeight: 1080
-      bitrateMode: 2
+      bitrateMode: 1
       spatialQuality: 2
     encodedWidth: 960
     encodedHeight: 540
@@ -61,7 +61,7 @@ VideoClipImporter:
     streamedResource:
       source: library/metadata/41/41738c8428d6e4257a95273b3dbc678d.resource
       offset: 0
-      size: 16496189
+      size: 15930309
   userData: 
   assetBundleName: 
   assetBundleVariant: 
