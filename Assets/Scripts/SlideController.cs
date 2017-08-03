@@ -57,6 +57,7 @@ public class SlideController : MonoBehaviour {
 		}
 		if(hasAnswer){
 			isfinished = false;
+			print(currenttag);
 			current = ContentDatabase[currenttag] as ContentChunk;
 			current.Play(vc,this);
 			hasAnswer = false;
